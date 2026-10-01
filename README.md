@@ -1,10 +1,18 @@
-POKÉMON BATTLE WEB
+# POKÉMON BATTLE WEB
 
 
-Breve descripción:
+## Breve descripción:
 
-Simulación de batallas Pokémon en Python
+Simulación de batallas Pokémon en Python y Flask
 
-Instrucciones:
+## Instrucciones:
 
-- Tecnologías empleadas: Python, Flask
+- Tecnologías empleadas: Python 3.14.7, Flask 3.1.3
+
+## Estrutura del proyecto:
+
+|-app: 
+|  |-templates: plantillas del proyecto.
+|  |-main.py: archivo con el código para ejecutar la aplicaión.
+|-venv: carpeta contenedora de las librerias y módulos para el correcto funcionamiento de la aplicación. No incorporado a este repositorio. Usar el archivo requierements para recrearlo.
+|-requirements: archivo con los requerimientos para recrear el proyecto. Lista las librerias y módulos del proyecto junto con sus versiones.
