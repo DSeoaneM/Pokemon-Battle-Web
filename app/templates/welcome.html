@@ -43,19 +43,7 @@
     </div>
   </div>
 
-  <!-- Enlace pendiente: sustituir href="#" por la página de la lista -->
-  <a class="button pokemon-list" href="#">Lista de Pokémon</a>
+  <a class="button pokemon-list" href="{{ url_for('pokemons') }}">Pokémon List</a>
 
   <script src="{{ url_for('static', filename='js/window.js') }}"></script>
 {% endblock %}
-
-{#
-{% for pokemon in DATOS_POKEMON %}
-            <p>{{ pokemon["name"] }}</p>
-            <img src= '{{ pokemon["sprites"]["front_default"] }}'/>
-            {% for tipo in pokemon["types"] %}
-                <p>{{ tipo }}</p>
-            {% endfor %}
-            <button class="btn btn-info">Info</button>
-        {% endfor %}
-#}

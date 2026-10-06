@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block links %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
+
+{% endblock %}
+
+{% block header %}Choose your Pokémon{% endblock %}
+
+{% block main %}
+
+<div class="collection">
+  {% for pokemon in POKEMON_DATA %}
+    <a class="card-button" href="{{ url_for('pokemon_stats', id=pokemon['id']) }}" >
+    <div class="card">
+    <p>{{ pokemon["name"] }}</p>
+    <img src= '{{ pokemon["sprites"]["front_default"] }}'/>
+    {% for type in pokemon["types"] %}
+      <p>{{ type }}</p>
+    {% endfor %}
+    </div>
+    </a>
+  {% endfor %}
+</div>
+
+{% endblock %}
