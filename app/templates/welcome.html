@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% block links %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='window.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/window.css') }}">
 {% endblock %}
 
 {% block main %}
@@ -30,9 +30,9 @@
 
     <div class="box">
       <div class="screen">
-        <video id="intro" muted playsinline preload="auto" poster="img/poster.jpg"
+        <video id="intro" muted playsinline preload="auto" poster="{{ url_for('static', filename='img/poster.jpg') }}"
                aria-label="Silhouettes for Hypno, Trevenant, Mr. Mime, Banette, Sliggoo, Cofagrigus, Haunter and Cacturne under title Pokémon Battle Web">
-          <source src="video/animacion.mp4" type="video/mp4">
+          <source src="{{ url_for('static', filename='video/animation.mp4') }}" type="video/mp4">
         </video>
       </div>
       <div class="frame"></div>
@@ -46,15 +46,16 @@
   <!-- Enlace pendiente: sustituir href="#" por la página de la lista -->
   <a class="button pokemon-list" href="#">Lista de Pokémon</a>
 
-  <script src="js/ventana.js"></script>
+  <script src="{{ url_for('static', filename='js/window.js') }}"></script>
 {% endblock %}
 
-
-<!-- {% for pokemon in DATOS_POKEMON %}
+{#
+{% for pokemon in DATOS_POKEMON %}
             <p>{{ pokemon["name"] }}</p>
             <img src= '{{ pokemon["sprites"]["front_default"] }}'/>
             {% for tipo in pokemon["types"] %}
                 <p>{{ tipo }}</p>
             {% endfor %}
             <button class="btn btn-info">Info</button>
-        {% endfor %} -->
+        {% endfor %}
+#}

@@ -41,7 +41,7 @@
   border:7px solid var(--orange);
   box-shadow:
     0 0 0 3px var(--black),
-    inset 0 0 0 3px var(--balck),
+    inset 0 0 0 3px var(--black),
     0 0 34px rgba(95,226,122,.45),
     0 14px 30px rgba(0,0,0,.55);
 }
@@ -113,17 +113,17 @@
   transition:transform .15s,box-shadow .15s;
 }
 
-.boton:hover{
+.button:hover{
   transform:translateY(-3px) scale(1.04);
   box-shadow:0 0 0 4px #6ccb4a,0 0 40px rgba(95,226,122,1),0 10px 0 #000;
 }
 
-.boton:active{
+.button:active{
   transform:translateY(4px);
   box-shadow:0 0 0 4px var(--green),0 0 16px rgba(95,226,122,.8),0 3px 0 #000;
 }
 
-.boton:focus-visible{
+.button:focus-visible{
   outline:4px solid #fff;
   outline-offset:6px;
 }
