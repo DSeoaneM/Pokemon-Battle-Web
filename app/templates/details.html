@@ -1,0 +1,123 @@
+{% extends "base.html" %}
+
+{% block links %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+{% endblock %}
+
+{% block header %} 
+
+  <div class="detail-id">#{{ pokemon["id"] }}</div> {{ pokemon["name"]|replace('-', ' ')|title }}
+
+{% endblock %}
+
+{% block main %}
+
+  <div class="detail">
+    <div class="detail-card">
+      <div class="sprite-row">
+        {% for key in pokemon["sprites"].keys() %}
+          <figure class="sprite">
+          <div class="sprite-image">
+            <img src="{{ pokemon['sprites'][key] }}" alt="{{ pokemon['name']|replace('-', ' ')|title }} · {{ key|replace('_', ' ')|capitalize }}" width="96" height="96">
+          </div>
+          <figcaption class="sprite-label">{{ key|replace('_', ' ')|capitalize }}</figcaption>
+        </figure>
+        {% endfor %}
+      </div>
+
+      <ul class="pokemon-card-types detail-types">
+        {% for type in pokemon["types"] %}
+        <li class="type type-{{ type }}">{{ type }}</li>
+        {% endfor %}
+      </ul>
+
+      <p class="detail-size">
+        Height: <span class="pokemon-height">{{ pokemon["height"] / 10 }} m</span>   Weight:
+        <span class="pokemon-weight">
+          {% if pokemon["weight"] > 4000 %}
+            <span class="size-superheavy">Super Heavy</span>
+          {% elif pokemon["weight"] > 1000 %}
+            <span class="size-heavy">Heavy</span>
+          {% elif pokemon["weight"] > 500 %}
+            <span class="size-normal">Normal</span>
+          {% elif pokemon["weight"] > 100 %}
+            <span class="size-light">Light</span>
+          {% else %}
+            <span class="size-superlight">Super Light</span>
+          {% endif %}
+        </span>
+      </p>
+
+      <section class="detail-section">
+        <h2 class="detail-heading">Stats</h2>
+
+        {% set size = 320 %}
+        {% set max_value = 150 %}
+        {% set c = size / 2 %}
+        {% set radius = size * 0.32 %}
+        {% set dirs = [(0, -1), (0.8660254, -0.5), (0.8660254, 0.5), (0, 1), (-0.8660254, 0.5), (-0.8660254, -0.5)] %}
+        {% set labels = {'hp': 'HP', 'attack': 'ATK', 'defense': 'DEF',
+                        'special-attack': 'SpA', 'special-defense': 'SpD', 'speed': 'SPD'} %}
+
+        <svg class="radar" viewBox="0 0 {{ size }} {{ size }}" role="img" aria-label="Spider-chart: {% for s in pokemon.stats %}{{ labels[s.name] }} {{ s.value }}{% if not loop.last %}, {% endif %}{% endfor %}">
+          {% for level in [0.25, 0.5, 0.75, 1] %}
+            <polygon class="radar-ring" points="{% for d in dirs %}{{ '%.1f,%.1f' % (c + radius * level * d[0], c + radius * level * d[1]) }} {% endfor %}"/>
+          {% endfor %}
+
+          {% for d in dirs %}
+            <line class="radar-axis" x1="{{ c }}" y1="{{ c }}" x2="{{ '%.1f' % (c + radius * d[0]) }}" y2="{{ '%.1f' % (c + radius * d[1]) }}"/>
+          {% endfor %}
+
+          <polygon class="radar-shape" points="{% for s in pokemon.stats %}{% set d = dirs[loop.index0] %}{% set r = radius * ([s.value, max_value]|min) / max_value %}{{ '%.1f,%.1f' % (c + r * d[0], c + r * d[1]) }} {% endfor %}"/>
+
+          {% for s in pokemon.stats %}
+            {% set d = dirs[loop.index0] %}
+            {% set r = radius * ([s.value, max_value]|min) / max_value %}
+            <circle class="radar-dot" cx="{{ '%.1f' % (c + r * d[0]) }}" cy="{{ '%.1f' % (c + r * d[1]) }}" r="4.5"/>
+          {% endfor %}
+
+          {% for s in pokemon.stats %}
+            {% set d = dirs[loop.index0] %}
+            {% set x = c + radius * 1.22 * d[0] %}
+            {% set y = c + radius * 1.22 * d[1] %}
+            <text class="radar-label" x="{{ '%.1f' % x }}" y="{{ '%.1f' % y }}" text-anchor="{{ 'middle' if d[0] == 0 else ('start' if d[0] > 0 else 'end') }}">
+              {{ labels[s.name] }}
+              <tspan class="radar-value" x="{{ '%.1f' % x }}" dy="1.25em">{{ s.value }}</tspan>
+            </text>
+          {% endfor %}
+        </svg>
+      </section>
+    </div>
+
+    <section class="detail-card">
+      <h2 class="detail-heading">Moves</h2>
+      <div class="table-wrap">
+        <table class="moves-table">
+          <thead>
+            <tr><th>Name</th><th>Type</th><th>Power</th><th>Accuracy</th><th>URL</th></tr>
+          </thead>
+          <tbody>
+            {% for move in pokemon["moves"] %}
+            <tr>
+              <td class="moves-table-name">{{ move["name"]|replace('-', ' ')|capitalize }}</td>
+              <td>
+                <span class="type type-{{ move['type'] }}">{{ move["type"] }}</span>
+              </td>
+              <td class="moves-table-num">{{ move["power"] if move["power"] is not none else '—' }}</td>
+              <td class="moves-table-num">{{ move["accuracy"] if move["accuracy"] is not none else '—' }}</td>
+              <td>
+                <a class="moves-table-link" href="{{ move['url'] }}" target="_blank" rel="noopener">Ver ↗</a>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <a class="back-button" href="{{ url_for('pokemon_list') }}">← Pokémon List</a>
+
+  </div>
+
+{% endblock %}

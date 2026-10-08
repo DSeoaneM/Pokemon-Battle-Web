@@ -2,7 +2,7 @@
 
 {% block links %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/card.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
 
 {% endblock %}
 
@@ -10,18 +10,45 @@
 
 {% block main %}
 
-<div class="collection">
+<section class="pokemon-grid" aria-label="Pokémon">
   {% for pokemon in POKEMON_DATA %}
-    <a class="card-button" href="{{ url_for('pokemon_stats', id=pokemon['id']) }}" >
-    <div class="card">
-    <p>{{ pokemon["name"] }}</p>
-    <img src= '{{ pokemon["sprites"]["front_default"] }}'/>
-    {% for type in pokemon["types"] %}
-      <p>{{ type }}</p>
-    {% endfor %}
-    </div>
+    <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id']) }}" aria-label="Details for {{ pokemon['name']|replace('-', ' ')|title }}">
+      <div class="pokemon-card-id">
+        #{{ pokemon["id"] }}
+      </div>
+      
+      <div class="pokemon-card-image">
+        <img src= '{{ pokemon["sprites"]["front_default"] }}' alt="{{ pokemon['name']|replace('-', ' ')|title }}" width="96" height="96" loading="lazy"/>
+      </div>
+      
+      <p class="pokemon-card-name">{{ pokemon["name"]|replace("-", " ")|title }}</p>
+      
+      <ul class="pokemon-card-types">
+        {% for type in pokemon["types"] %}
+        <li class="type type-{{ type }}">{{ type }}</li>
+        {% endfor %}
+      </ul>
+
+      <p class="pokemon-card-size">
+        <span class="pokemon-height">
+          {{ (pokemon["height"]/10) }} m 
+        </span>
+        <span class="pokemon-weight">
+          {% if pokemon["weight"] > 4000 %}
+            <span class="size-superheavy">Super Heavy</span>
+          {% elif pokemon["weight"] > 1000 %}
+            <span class="size-heavy">Heavy</span>
+          {% elif pokemon["weight"] > 500 %}
+            <span class="size-normal">Normal</span>
+          {% elif pokemon["weight"] > 100 %}
+            <span class="size-light">Light</span>
+          {% else %}
+            <span class="size-superlight">Super Light</span>            
+          {% endif %}
+        </span>
+      </p>
     </a>
   {% endfor %}
-</div>
+</section>
 
 {% endblock %}

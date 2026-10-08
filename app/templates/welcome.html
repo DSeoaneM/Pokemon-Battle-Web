@@ -10,7 +10,7 @@
         <linearGradient id="bolaTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffa561"/><stop offset=".55" stop-color="#ec7024"/><stop offset="1" stop-color="#bf5217"/></linearGradient>
         <linearGradient id="bolaBot" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f58a3e"/><stop offset=".5" stop-color="#ec7024"/><stop offset="1" stop-color="#c4561a"/></linearGradient>
         <clipPath id="bolaClip"><circle cx="32" cy="32" r="28"/></clipPath>
-        <symbol id="pokeball-naranja" viewBox="0 0 64 64">
+        <symbol id="orange-pokeball" viewBox="0 0 64 64">
         <circle cx="32" cy="32" r="31" fill="#050805"/>
         <g clip-path="url(#bolaClip)">
             <rect x="0" y="0" width="64" height="32" fill="url(#bolaTop)"/>
@@ -26,7 +26,7 @@
     </svg>
 
   <div class="window">
-    <svg class="ball-center" aria-hidden="true"><use href="#pokeball-naranja"/></svg>
+    <svg class="ball-center" aria-hidden="true"><use href="#orange-pokeball"/></svg>
 
     <div class="box">
       <div class="screen">
@@ -36,14 +36,14 @@
         </video>
       </div>
       <div class="frame"></div>
-      <svg class="ball tl" aria-hidden="true"><use href="#pokeball-naranja"/></svg>
-      <svg class="ball tr" aria-hidden="true"><use href="#pokeball-naranja"/></svg>
-      <svg class="ball br" aria-hidden="true"><use href="#pokeball-naranja"/></svg>
-      <svg class="ball bl" aria-hidden="true"><use href="#pokeball-naranja"/></svg>
+      <svg class="ball tl" aria-hidden="true"><use href="#orange-pokeball"/></svg>
+      <svg class="ball tr" aria-hidden="true"><use href="#orange-pokeball"/></svg>
+      <svg class="ball br" aria-hidden="true"><use href="#orange-pokeball"/></svg>
+      <svg class="ball bl" aria-hidden="true"><use href="#orange-pokeball"/></svg>
     </div>
   </div>
 
-  <a class="button pokemon-list" href="{{ url_for('pokemons') }}">Pokémon List</a>
+  <a class="button pokemon-list" href="{{ url_for('pokemon_list') }}">Pokémon List</a>
 
   <script src="{{ url_for('static', filename='js/window.js') }}"></script>
 {% endblock %}
