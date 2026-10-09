@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block header %}
+
+  Complete your register to fight in Pokémon Battles, Trainer
+
+{% endblock %}
+
+{% block main %}
+
+  <form method="POST" action="/login">
+    <label for="trainer-name">Trainer: </label>
+    <input id="triner-name" name="trainer" type="text" placeholder="Ash">
+    <button type="submit">Continue</button>
+  </form>
+
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
+{% endblock %}
