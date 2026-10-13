@@ -8,51 +8,154 @@
 
 {% block header %}
 
-  Choose your Pokémon, {{ name }}
+  Choose your Pokémon, {{ trainer_name }}
 
 {% endblock %}
 
 {% block main %}
 
-<section class="pokemon-grid" aria-label="Pokémon">
-  {% for pokemon in POKEMON_DATA %}
-    <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id']) }}" aria-label="Details for {{ pokemon['name']|replace('-', ' ')|title }}">
-      <div class="pokemon-card-id">
-        #{{ pokemon["id"] }}
-      </div>
-      
-      <div class="pokemon-card-image">
-        <img src= '{{ pokemon["sprites"]["front_default"] }}' alt="{{ pokemon['name']|replace('-', ' ')|title }}" width="96" height="96" loading="lazy"/>
-      </div>
-      
-      <p class="pokemon-card-name">{{ pokemon["name"]|replace("-", " ")|title }}</p>
-      
-      <ul class="pokemon-card-types">
-        {% for type in pokemon["types"] %}
-        <li class="type type-{{ type }}">{{ type }}</li>
-        {% endfor %}
-      </ul>
+  <form method="POST" action="/pokemons">
+    <input type="hidden" name="trainer_name" value="{{ trainer_name }}"/>
 
-      <p class="pokemon-card-size">
-        <span class="pokemon-height">
-          {{ (pokemon["height"]/10) }} m 
-        </span>
-        <span class="pokemon-weight">
-          {% if pokemon["weight"] > 4000 %}
-            <span class="size-superheavy">Super Heavy</span>
-          {% elif pokemon["weight"] > 1000 %}
-            <span class="size-heavy">Heavy</span>
-          {% elif pokemon["weight"] > 500 %}
-            <span class="size-normal">Normal</span>
-          {% elif pokemon["weight"] > 100 %}
-            <span class="size-light">Light</span>
-          {% else %}
-            <span class="size-superlight">Super Light</span>            
-          {% endif %}
-        </span>
-      </p>
-    </a>
-  {% endfor %}
-</section>
+    <label for="pokemon-name">Pokémon: </label>
+    <input id="pokemon-name" name="pokemon_name" type="text">
+
+    <label for="pokemon-type-1">Type 1: </label>
+    <select id="pokemon-type-1" name="pokemon_type_1">
+      <option value="" selected>--Choose a type--</option>
+      <option>Grass</option>
+      <option>Poison</option>
+      <option>Psychic</option>
+      <option>Ghost</option>
+      <option>Dragon</option>
+      <option>Dark</option>
+      <option>Fairy</option>
+    </select>
+    <label for="pokemon-type-2">Type 2: </label>
+    <select id="pokemon-type-2" name="pokemon_type_2">
+      <option value="" selected>--Choose a type--</option>
+      <option>Grass</option>
+      <option>Poison</option>
+      <option>Psychic</option>
+      <option>Ghost</option>
+      <option>Dragon</option>
+      <option>Dark</option>
+      <option>Fairy</option>
+    </select>
+
+    <label for="pokemon-stat-1">Stat: </label>
+    <select id="pokemon-stat-1" name="pokemon_stat_1">
+      <option value="" selected>--Choose stat--</option>
+      <option value="hp">HP</option>
+      <option value="attack">ATK</option>
+      <option value="defense">DEF</option>
+      <option value="special-attack">SpA</option>
+      <option value="special-defense">SpD</option>
+      <option value="speed">SPD</option>
+    </select>
+    <input id="pokemon-stat-1-value" name="pokemon_stat_1_value" type="number">
+    <label for="pokemon-stat-2">Stat: </label>
+    <select id="pokemon-stat-2" name="pokemon_stat_2">
+      <option value="" selected>--Choose stat--</option>
+      <option value="hp">HP</option>
+      <option value="attack">ATK</option>
+      <option value="defense">DEF</option>
+      <option value="special-attack">SpA</option>
+      <option value="special-defense">SpD</option>
+      <option value="speed">SPD</option>
+    </select>
+    <input id="pokemon-stat-2-value" name="pokemon_stat_2_value" type="number">
+    <label for="pokemon-stat-3">Stat: </label>
+    <select id="pokemon-stat-3" name="pokemon_stat_3">
+      <option value="" selected>--Choose stat--</option>
+      <option value="hp">HP</option>
+      <option value="attack">ATK</option>
+      <option value="defense">DEF</option>
+      <option value="special-attack">SpA</option>
+      <option value="special-defense">SpD</option>
+      <option value="speed">SPD</option>
+    </select>
+    <input id="pokemon-stat-3-value" name="pokemon_stat_3_value" type="number">
+
+    <label for="move-type">Move type: </label>
+    <select id="move-type" name="move_type">
+      <option value="" selected>--Choose a type--</option>
+      <option>Normal</option>
+      <option>Grass</option>
+      <option>Fire</option>
+      <option>Water</option>
+      <option>Electric</option>
+      <option>Flying</option>
+      <option>Bug</option>
+      <option>Ice</option>
+      <option>Ground</option>
+      <option>Rock</option>
+      <option>Poison</option>
+      <option>Fighting</option>
+      <option>Psychic</option>
+      <option>Ghost</option>
+      <option>Dragon</option>
+      <option>Dark</option>
+      <option>Steel</option>
+      <option>Fairy</option>
+    </select>
+
+    <button type="submit">Continue</button>
+  </form>
+
+
+  <section class="pokemon-grid">
+    
+    {% for pokemon in POKEMON_DATA %}
+      <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id']) }}">
+        <div class="pokemon-card-id">
+          #{{ pokemon["id"] }}
+        </div>
+        
+        <div class="pokemon-card-image">
+          <img src= '{{ pokemon["sprites"]["front_default"] }}' alt="{{ pokemon['name']|replace('-', ' ')|title }}" width="96" height="96" loading="lazy"/>
+        </div>
+        
+        <p class="pokemon-card-name">{{ pokemon["name"]|replace("-", " ")|title }}</p>
+        
+        <ul class="pokemon-card-types">
+          {% for type in pokemon["types"] %}
+          <li class="type type-{{ type }}">{{ type }}</li>
+          {% endfor %}
+        </ul>
+
+        <p class="pokemon-card-size">
+          <span class="pokemon-height">
+            {{ (pokemon["height"]/10) }} m 
+          </span>
+          <span class="pokemon-weight">
+            {% if pokemon["weight"] > 4000 %}
+              <span class="size-superheavy">Super Heavy</span>
+            {% elif pokemon["weight"] > 1000 %}
+              <span class="size-heavy">Heavy</span>
+            {% elif pokemon["weight"] > 500 %}
+              <span class="size-normal">Normal</span>
+            {% elif pokemon["weight"] > 100 %}
+              <span class="size-light">Light</span>
+            {% else %}
+              <span class="size-superlight">Super Light</span>            
+            {% endif %}
+          </span>
+        </p>
+      </a>
+    {% endfor %}
+  </section>
+
+  <p>{{ trainer_name }}, is time to choose your starter Pokémon!!!</p>
+  <form method="POST" action="/pokemons">
+    <input type="hidden" name="trainer_name" value="{{ trainer_name }}"/>
+    <label for="starter-pokemon">Choose your starter Pokémon: </label>
+    <input id="starter-pokemon" name="starter_pokemon" type="text" placeholder="Haunter">
+    <button type="submit">Continue</button>
+  </form>
+
+  {% if error %}
+    <p>{{ error }}</p>
+  {% endif %}
 
 {% endblock %}

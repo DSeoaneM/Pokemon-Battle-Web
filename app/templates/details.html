@@ -57,10 +57,9 @@
         {% set c = size / 2 %}
         {% set radius = size * 0.32 %}
         {% set dirs = [(0, -1), (0.8660254, -0.5), (0.8660254, 0.5), (0, 1), (-0.8660254, 0.5), (-0.8660254, -0.5)] %}
-        {% set labels = {'hp': 'HP', 'attack': 'ATK', 'defense': 'DEF',
-                        'special-attack': 'SpA', 'special-defense': 'SpD', 'speed': 'SPD'} %}
+        {% set labels = {'hp': 'HP', 'attack': 'ATK', 'defense': 'DEF', 'special-attack': 'SpA', 'special-defense': 'SpD', 'speed': 'SPD'} %}
 
-        <svg class="radar" viewBox="0 0 {{ size }} {{ size }}" role="img" aria-label="Spider-chart: {% for s in pokemon.stats %}{{ labels[s.name] }} {{ s.value }}{% if not loop.last %}, {% endif %}{% endfor %}">
+        <svg class="radar" viewBox="0 0 {{ size }} {{ size }}" role="img">
           {% for level in [0.25, 0.5, 0.75, 1] %}
             <polygon class="radar-ring" points="{% for d in dirs %}{{ '%.1f,%.1f' % (c + radius * level * d[0], c + radius * level * d[1]) }} {% endfor %}"/>
           {% endfor %}

@@ -7,14 +7,15 @@
 {% endblock %}
 
 {% block main %}
-
-  <form method="POST" action="/login">
-    <label for="trainer-name">Trainer: </label>
-    <input id="triner-name" name="trainer" type="text" placeholder="Ash">
-    <button type="submit">Continue</button>
-  </form>
-
+  
   {% if error %}
     <p>{{ error }}</p>
   {% endif %}
+
+  <form method="POST" action="/login">
+    <label for="trainer-name">Trainer: </label>
+    <input id="trainer-name" name="trainer_name" type="text" placeholder="Ash" autofocus>
+    <button type="submit">Continue</button>
+  </form>
+
 {% endblock %}

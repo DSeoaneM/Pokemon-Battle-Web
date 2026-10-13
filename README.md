@@ -11,7 +11,7 @@ Simulation of Pokémon battles with Python and Flask
 - Flask 3.1.3
 
 ## Project structure:
-
+```
 Pokemon-Battle-Web/
 ├─ requirements: file with project requirements to rebuild it. List of project libraries and modules with their versions.
 ├─ README: fthis file containing all project information and updates.
@@ -26,3 +26,4 @@ Pokemon-Battle-Web/
         ├─ img: folder with images used in this project.
         ├─ js: project JavaScript functionality files.
         └─ video: introductory video.
+```
