@@ -14,9 +14,7 @@
 
 {% block main %}
 
-  <form method="POST" action="/pokemons">
-    <input type="hidden" name="trainer_name" value="{{ trainer_name }}"/>
-
+  <form method="POST" action="{{ url_for('pokemon_list', trainer_name=trainer_name) }}">
     <label for="pokemon-name">Pokémon: </label>
     <input id="pokemon-name" name="pokemon_name" type="text">
 
@@ -107,7 +105,7 @@
   <section class="pokemon-grid">
     
     {% for pokemon in POKEMON_DATA %}
-      <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id']) }}">
+      <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id'], trainer_name=trainer_name) }}">
         <div class="pokemon-card-id">
           #{{ pokemon["id"] }}
         </div>
@@ -147,8 +145,7 @@
   </section>
 
   <p>{{ trainer_name }}, is time to choose your starter Pokémon!!!</p>
-  <form method="POST" action="/pokemons">
-    <input type="hidden" name="trainer_name" value="{{ trainer_name }}"/>
+  <form method="POST" action="{{ url_for('pokemon_list', trainer_name=trainer_name) }}">
     <label for="starter-pokemon">Choose your starter Pokémon: </label>
     <input id="starter-pokemon" name="starter_pokemon" type="text" placeholder="Haunter">
     <button type="submit">Continue</button>

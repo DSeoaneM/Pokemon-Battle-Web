@@ -101,7 +101,7 @@ def pokemon_list():
         return render_template("list.html", trainer_name=trainer_name, POKEMON_DATA=POKEMON_DATA, project=PROJECT, author=AUTHOR, year=YEAR)
 
     if request.method == "POST":
-        trainer_name = request.form.get("trainer_name")
+        trainer_name = request.form.get("trainer_name") or trainer_name
 
     filtered_pokemon = POKEMON_DATA
 
@@ -190,7 +190,6 @@ def pokemon_list():
 
     starter_name = request.form.get("starter_pokemon", "").strip().lower().replace(" ", "-")
     if starter_name != "":
-        trainer_name =  request.form.get("trainer_name")
         pokemon_names = []
         error = []
         for pokemon in POKEMON_DATA:
@@ -207,11 +206,12 @@ def pokemon_list():
 
 @app.route("/pokemons/<int:id>/")
 def pokemon_details(id):
+    trainer_name = request.args.get("trainer_name")
     pokemon_selected = None
     for pokemon in POKEMON_DATA:
         if pokemon["id"] == id:
             pokemon_selected = pokemon
-    return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
+    return render_template("details.html", trainer_name=trainer_name, pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
 
 @app.route("/battle", methods=["GET"])
 def battle():
