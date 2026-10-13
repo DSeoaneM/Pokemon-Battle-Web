@@ -213,6 +213,10 @@ def pokemon_details(id):
     for pokemon in POKEMON_DATA:
         if pokemon["id"] == id:
             pokemon_selected = pokemon
+
+    if pokemon_selected == None:
+        return render_template("details.html", trainer_name=trainer_name, pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
+            
     return render_template("details.html", trainer_name=trainer_name, pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
 
 @app.route("/battle", methods=["GET"])
