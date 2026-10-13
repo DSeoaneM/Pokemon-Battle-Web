@@ -22,8 +22,10 @@ def filter_by_name(pokemon_list, pokemon_name):
     filtered_pokemon = []
 
     for pokemon in pokemon_list:
-        if pokemon_name in pokemon["name"]:
-                filtered_pokemon.append(pokemon)
+        if len(pokemon_name) <= 2 and pokemon["name"].startswith(pokemon_name):
+            filtered_pokemon.append(pokemon)
+        elif len(pokemon_name) > 2 and pokemon_name in pokemon["name"]:
+            filtered_pokemon.append(pokemon)
 
     return filtered_pokemon
 
