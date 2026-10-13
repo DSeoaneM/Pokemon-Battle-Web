@@ -10,6 +10,18 @@ Simulation of Pokémon battles with Python and Flask
 - Python 3.14.7
 - Flask 3.1.3
 
+## Functionalities
+
+- Login in the Pokémon Battle Page
+- Show the list of selectable Pokémon
+- Filter Pokémon by name, types, stats values and/or move type
+- Access to detailed information about each Pokémon
+- Choose a starter Pokémon to battle
+
+## Web page access
+
+To enjoy all functionalities of POKÉMON BATTLE WEB, a valid trainer name is required.
+
 ## Project structure:
 ```
 Pokemon-Battle-Web/
