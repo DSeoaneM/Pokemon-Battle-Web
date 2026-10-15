@@ -1,0 +1,145 @@
+:root{
+  --u:max(1vw,1.7778svh);
+  --cy:calc(var(--u)*29.25);
+  --orange:#ec7024; --lime:#d6ffbe; --line:#f5f2e8;
+  --starter-x:calc(var(--u)*20.5);
+  --starter-w:calc(var(--u)*35);
+  --col-x:calc(var(--u)*56.5);
+  --col-w:calc(var(--u)*25);
+  --rival-w:calc(var(--u)*15.5);
+  --fs:calc(var(--u)*.82);
+}
+
+html{
+  min-height:100%; overflow:hidden;
+  background:
+    radial-gradient(2.2px 2.2px at 8% 8%, #fff 40%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 17% 4%, #dfe9ff 40%, transparent 100%),
+    radial-gradient(2.2px 2.2px at 26% 10%, #fff 40%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 35% 3%, #fff 40%, transparent 100%),
+    radial-gradient(2.2px 2.2px at 44% 7%, #cfe0ff 40%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 52% 3.5%, #fff 40%, transparent 100%),
+    radial-gradient(2.2px 2.2px at 61% 9%, #fff 40%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 70% 5%, #dfe9ff 40%, transparent 100%),
+    radial-gradient(2.2px 2.2px at 79% 8%, #fff 40%, transparent 100%),
+    radial-gradient(1.6px 1.6px at 88% 3%, #fff 40%, transparent 100%),
+    radial-gradient(2.2px 2.2px at 94% 10%, #cfe0ff 40%, transparent 100%),
+    radial-gradient(ellipse 80% 14% at 50% 14%, rgba(120,90,190,.35), transparent 70%),
+    linear-gradient(to bottom, #04061a 0%, #0a0f2e 10%, #171a42 17%, #0b0e22 17.2%, #080a18 100%);
+}
+body{
+  position:absolute; left:50%; top:50%; transform:translate(-50%,-50%);
+  width:calc(var(--u)*100); height:calc(var(--u)*56.25);
+  display:block; overflow:hidden; background:none; margin:0;
+  color:#eef6ff; font-family:"Poppins","Trebuchet MS",sans-serif;
+}
+
+body::before{
+  content:""; position:absolute; z-index:3; left:0; right:0;
+  top:calc(var(--cy) - var(--u)*29.25); height:calc(var(--u)*56.25);
+  background:url("data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 1000 562.5%22 preserveAspectRatio=%22none%22%3E%3Cdefs%3E%3Cpattern id=%22m%22 width=%2213%22 height=%2213%22 patternUnits=%22userSpaceOnUse%22 patternTransform=%22rotate(45)%22%3E%3Cpath d=%22M0 0H13M0 0V13%22 stroke=%22%23aebbd6%22 stroke-opacity=%22.42%22 stroke-width=%221.3%22 fill=%22none%22/%3E%3C/pattern%3E%3ClinearGradient id=%22g%22 x1=%220%22 y1=%220%22 x2=%220%22 y2=%221%22%3E%3Cstop offset=%220%22 stop-color=%22%231b2236%22 stop-opacity=%22.92%22/%3E%3Cstop offset=%221%22 stop-color=%22%230e1326%22 stop-opacity=%22.92%22/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath d=%22M0.0,41.3 L1000.0,41.3 L1000.0,96.3 L0.0,96.3Z%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M0.0,41.3 L1000.0,41.3 L1000.0,96.3 L0.0,96.3Z%22 fill=%22url(%23m)%22/%3E%3Cpath d=%22M80.0,41.3 L80.0,96.3%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M240.0,41.3 L240.0,96.3%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M400.0,41.3 L400.0,96.3%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M560.0,41.3 L560.0,96.3%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M720.0,41.3 L720.0,96.3%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M880.0,41.3 L880.0,96.3%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M0.0,41.3 L1000.0,41.3%22 stroke=%22%23c6d2ea%22 stroke-width=%223.5%22 stroke-linecap=%22round%22 opacity=%22.9%22/%3E%3Cpath d=%22M183.0,41.3 L83.9,113.9 L107.8,180.9 L197.1,96.3Z%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M183.0,41.3 L83.9,113.9 L107.8,180.9 L197.1,96.3Z%22 fill=%22url(%23m)%22/%3E%3Cpath d=%22M163.0,56.0 L178.8,113.6%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M140.2,72.7 L158.2,133.2%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M114.0,91.8 L134.7,155.4%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M183.0,41.3 L83.9,113.9%22 stroke=%22%23c6d2ea%22 stroke-width=%223.5%22 stroke-linecap=%22round%22 opacity=%22.9%22/%3E%3Cpath d=%22M197.1,96.3 L107.8,180.9%22 stroke=%22%237d8cae%22 stroke-width=%223%22 opacity=%22.7%22/%3E%3Cpath d=%22M183.0,41.3 L197.1,96.3%22 stroke=%22%230b1022%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M83.9,113.9 L107.8,180.9%22 stroke=%22%230b1022%22 stroke-width=%229%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%2283.9%22 cy=%22113.9%22 r=%226%22 fill=%22%23c6d2ea%22/%3E%3Cpath d=%22M817.0,41.3 L916.1,113.9 L892.2,180.9 L802.9,96.3Z%22 fill=%22url(%23g)%22/%3E%3Cpath d=%22M817.0,41.3 L916.1,113.9 L892.2,180.9 L802.9,96.3Z%22 fill=%22url(%23m)%22/%3E%3Cpath d=%22M837.0,56.0 L821.2,113.6%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M859.8,72.7 L841.8,133.2%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M886.0,91.8 L865.3,155.4%22 stroke=%22%230b1022%22 stroke-width=%225%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M817.0,41.3 L916.1,113.9%22 stroke=%22%23c6d2ea%22 stroke-width=%223.5%22 stroke-linecap=%22round%22 opacity=%22.9%22/%3E%3Cpath d=%22M802.9,96.3 L892.2,180.9%22 stroke=%22%237d8cae%22 stroke-width=%223%22 opacity=%22.7%22/%3E%3Cpath d=%22M817.0,41.3 L802.9,96.3%22 stroke=%22%230b1022%22 stroke-width=%227%22 stroke-linecap=%22round%22/%3E%3Cpath d=%22M916.1,113.9 L892.2,180.9%22 stroke=%22%230b1022%22 stroke-width=%229%22 stroke-linecap=%22round%22/%3E%3Ccircle cx=%22916.1%22 cy=%22113.9%22 r=%226%22 fill=%22%23c6d2ea%22/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+  pointer-events:none;
+}
+
+body::after{
+  content:""; position:absolute; z-index:2; left:50%; top:calc(var(--cy) - var(--u)*57.60);
+  width:calc(var(--u)*104); height:calc(var(--u)*115.2);
+  transform-origin:50% 50%;
+  transform:translateX(-50%) perspective(calc(var(--u)*69)) rotateX(55deg);
+  border-radius:6px;
+  background:
+    radial-gradient(ellipse 30% 20% at 14% 16%, rgba(255,240,200,.30), transparent 70%),
+    radial-gradient(ellipse 30% 20% at 86% 16%, rgba(255,240,200,.30), transparent 70%),
+    radial-gradient(ellipse 45% 22% at 50% 62%, rgba(255,235,190,.16), transparent 70%),
+    linear-gradient(to bottom, rgba(10,16,48,.50) 0, rgba(10,16,48,0) 24%),
+    radial-gradient(ellipse at 50% 50%, transparent 58%, rgba(2,4,12,.50) 100%),
+
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*12.00) calc(var(--u)*7.00) / calc(var(--u)*80.00) calc(var(--u)*0.70) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*12.00) calc(var(--u)*107.50) / calc(var(--u)*80.00) calc(var(--u)*0.70) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*12.00) calc(var(--u)*7.00) / calc(var(--u)*0.70) calc(var(--u)*101.20) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*91.30) calc(var(--u)*7.00) / calc(var(--u)*0.70) calc(var(--u)*101.20) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*12.00) calc(var(--u)*57.25) / calc(var(--u)*80.00) calc(var(--u)*0.70) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*38.40) calc(var(--u)*7.00) / calc(var(--u)*0.70) calc(var(--u)*9.11) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*64.90) calc(var(--u)*7.00) / calc(var(--u)*0.70) calc(var(--u)*9.11) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*38.40) calc(var(--u)*15.41) / calc(var(--u)*27.20) calc(var(--u)*0.70) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*38.40) calc(var(--u)*99.09) / calc(var(--u)*0.70) calc(var(--u)*9.11) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*64.90) calc(var(--u)*99.09) / calc(var(--u)*0.70) calc(var(--u)*9.11) no-repeat,
+    linear-gradient(var(--line),var(--line)) calc(var(--u)*38.40) calc(var(--u)*99.09) / calc(var(--u)*27.20) calc(var(--u)*0.70) no-repeat,
+    radial-gradient(circle at 50% 50%, transparent 0 calc(var(--u)*5.80), var(--line) calc(var(--u)*5.80) calc(var(--u)*6.5), transparent calc(var(--u)*6.5) calc(var(--u)*13.30), var(--line) calc(var(--u)*13.30) calc(var(--u)*14), transparent calc(var(--u)*14)),
+
+    radial-gradient(rgba(95,62,24,.30) 1px, transparent 1.6px) 0 0/11px 11px,
+    radial-gradient(rgba(255,236,180,.22) 1px, transparent 1.6px) 5px 6px/13px 13px,
+    radial-gradient(ellipse 18% 12% at 22% 30%, rgba(120,80,30,.28), transparent 70%),
+    radial-gradient(ellipse 22% 14% at 78% 66%, rgba(120,80,30,.26), transparent 70%),
+    radial-gradient(ellipse 16% 10% at 60% 22%, rgba(255,230,160,.18), transparent 70%),
+    radial-gradient(ellipse 70% 55% at 50% 50%, #e2bd72, #c9a05a 55%, #9c7338 100%);
+  box-shadow:0 0 calc(var(--u)*6) rgba(255,200,120,.22);
+}
+
+
+html::before{
+  content:""; position:fixed; z-index:0; inset:0; pointer-events:none;
+  background:
+    radial-gradient(circle at 6vw 5svh,  rgba(255,244,205,.95) 0 .5vw, rgba(255,236,170,.35) .8vw, transparent 6vw),
+    radial-gradient(circle at 94vw 5svh, rgba(255,244,205,.95) 0 .5vw, rgba(255,236,170,.35) .8vw, transparent 6vw);
+}
+
+
+.rival-sprite, .starter-sprite{ position:absolute; z-index:4; }
+.rival-sprite::after, .starter-sprite::after{       /* sombra en el suelo */
+  content:""; position:absolute; z-index:-1; left:12%; right:12%; bottom:-4%; height:16%;
+  background:radial-gradient(ellipse at center, rgba(40,24,6,.55), transparent 70%);
+}
+.rival-sprite img, .starter-sprite img{ display:block; width:100%; height:auto; image-rendering:pixelated; }
+.starter-sprite{ left:var(--starter-x); bottom:calc(var(--u)*1.6); width:var(--starter-w); }
+.rival-sprite{   left:calc(var(--col-x) + (var(--col-w) - var(--rival-w)) / 2); bottom:calc(var(--u)*31.5); width:var(--rival-w); }
+
+.starter-info, .rival-info{ position:absolute; z-index:5; font-size:var(--fs); font-weight:700; }
+.starter-info{ left:var(--col-x); bottom:calc(var(--u)*2.4); width:var(--col-w); }
+.rival-info{   left:calc(var(--starter-x) + (var(--starter-w) - var(--col-w)) / 2); top:calc(var(--u)*13); width:var(--col-w); }
+
+.starter-info, .rival-info{
+  display:grid; grid-template-columns:2.4em 1fr; align-items:center; column-gap:.6em; row-gap:.4em;
+  padding:.7em 1em;
+}
+.starter-info::before, .rival-info, .starter-info table{
+  background:rgba(8,12,30,.86);
+  border:.25em solid var(--orange);
+  border-radius:1em;
+  box-shadow:0 0 0 2px #050805, 0 .6em 1.6em rgba(0,0,0,.55);
+}
+.starter-info::before{                            /* fondo de la tarjeta de nombre y HP */
+  content:""; position:absolute; z-index:-1; grid-column:1 / -1; grid-row:1 / 4; inset:-.7em -1em;
+}
+
+.starter-info > div{ grid-column:1 / -1; grid-row:1; display:flex; justify-content:space-between; align-items:baseline; gap:1em; }
+.starter-info > div > span:first-child, .rival-info > span{ font-size:1.25em; color:#fff; }
+.starter-info > div > span:last-child{ color:var(--lime); font-size:.95em; }
+.rival-info > span{ grid-column:1 / -1; }
+
+.starter-info meter{ grid-column:2; grid-row:2; }
+.starter-info > span{ grid-column:2; grid-row:3; justify-self:center; font-size:.9em; }
+
+meter{ appearance:none; -webkit-appearance:none; width:100%; height:1.15em; border-radius:999px; background:#0a1020; border:2px solid #000; }
+meter::-webkit-meter-bar{ background:#0a1020; border:0; border-radius:999px; height:1.15em; }
+meter::-webkit-meter-optimum-value,
+meter::-webkit-meter-suboptimum-value,
+meter::-webkit-meter-even-less-good-value{ background:linear-gradient(#8dff86,#1fbf3a); border-radius:999px; }
+meter::-moz-meter-bar{ background:linear-gradient(#8dff86,#1fbf3a); border-radius:999px; }
+
+.starter-info table{ grid-column:1 / -1; grid-row:4; margin:1.6em -1em -.7em; width:calc(100% + 2em); border-collapse:separate; border-spacing:0; overflow:hidden; font-weight:500; }
+.starter-info th{ padding:.6em .8em; text-align:left; font-size:.78em; letter-spacing:.8px; text-transform:uppercase; color:var(--orange); border-bottom:2px solid rgba(236,112,36,.6); }
+.starter-info td{ padding:.5em .8em; border-bottom:1px solid rgba(236,112,36,.22); text-transform:capitalize; }
+.starter-info tr:last-child td{ border-bottom:0; }
+.starter-info th:nth-child(n+3), .starter-info td:nth-child(n+3){ text-align:center; }
+
+.rival-info table{ display:none; }
+
+@media (max-aspect-ratio:1/1){
+  :root{ --u:1vw; --cy:46svh; --starter-x:6vw; --starter-w:46vw; --rival-w:26vw; --fs:.74rem; }
+  body{ left:0; top:0; transform:none; width:100vw; height:100svh; }
+  .starter-info{ left:3vw; right:3vw; width:auto; bottom:2svh; }
+  .starter-sprite{ bottom:36svh; }
+  .rival-sprite{ left:auto; right:6vw; bottom:62svh; }
+  .rival-info{ left:3vw; top:27svh; width:58vw; }
+}

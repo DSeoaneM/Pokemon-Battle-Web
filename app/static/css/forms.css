@@ -1,0 +1,151 @@
+.login-form, .filter-form, .starter-form{
+  position:relative;
+  width:min(100%,1180px);
+  padding:1.6em 1.6em 1.4em;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(95,226,122,.14), transparent 60%),
+    rgba(6,10,7,.88);
+  border:5px solid var(--orange);
+  border-radius:18px;
+  box-shadow:
+    0 0 0 3px var(--black),
+    inset 0 0 0 3px var(--black),
+    0 0 26px rgba(95,226,122,.35),
+    0 10px 22px rgba(0,0,0,.5);
+  font-size:.95rem;
+}
+
+.login-form label, .filter-form label, .starter-form label{
+  font-weight:700; font-size:.82rem; letter-spacing:.5px;
+  color:#bfe9ad; white-space:nowrap;
+}
+
+.login-form input, .filter-form input, .filter-form select, .starter-form input{
+  width:100%; min-width:0;
+  padding:.62em 1.05em;
+  font:inherit; font-weight:500; color:#f1ffe8;
+  background:rgba(2,5,3,.75);
+  border:2px solid rgba(236,112,36,.55);
+  border-radius:999px;
+  outline:none;
+  transition:border-color .15s, box-shadow .15s;
+}
+.filter-form select{
+  appearance:none; -webkit-appearance:none; cursor:pointer;
+  padding-right:2.4em;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%23ec7024' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E")
+      right 1em center / .8em no-repeat,
+    rgba(2,5,3,.75);
+}
+.filter-form select option{ background:#0b120d; color:#f1ffe8; }
+.filter-form input[type="number"]{ text-align:center; padding-left:.6em; padding-right:.6em; }
+.login-form input::placeholder, .starter-form input::placeholder{ color:#6f8f66; }
+.login-form input:hover, .filter-form input:hover, .filter-form select:hover, .starter-form input:hover{ border-color:var(--orange); }
+.login-form input:focus-visible, .filter-form input:focus-visible,
+.filter-form select:focus-visible, .starter-form input:focus-visible{
+  border-color:var(--lime);
+  box-shadow:0 0 0 3px rgba(95,226,122,.35), 0 0 16px rgba(95,226,122,.5);
+}
+
+.login-form button, .filter-form button, .starter-form button{
+  padding:.6em 1.9em;
+  font:inherit; font-weight:700; font-size:1rem; color:var(--black);
+  background:radial-gradient(circle at 50% 30%,#ffb27a,#ec7024 60%,#c4561a);
+  border:4px solid var(--black);
+  border-radius:999px;
+  box-shadow:0 0 0 3px var(--green),0 0 22px rgba(95,226,122,.6),0 6px 0 #000;
+  cursor:pointer;
+  transition:transform .15s,box-shadow .15s;
+}
+.login-form button:hover, .filter-form button:hover, .starter-form button:hover{
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 0 0 3px #6ccb4a,0 0 32px rgba(95,226,122,.9),0 8px 0 #000;
+}
+.login-form button:active, .filter-form button:active, .starter-form button:active{
+  transform:translateY(4px); box-shadow:0 0 0 3px var(--green),0 0 14px rgba(95,226,122,.7),0 2px 0 #000;
+}
+.login-form button:focus-visible, .filter-form button:focus-visible, .starter-form button:focus-visible{ outline:3px solid #fff; outline-offset:5px; }
+
+.login-form{
+  width:min(100%,520px);
+  display:grid; grid-template-columns:1fr auto; align-items:center; gap:.7em 1em;
+}
+.login-form label{ grid-column:1 / -1; }
+
+.starter-choice-intro{
+  width:min(100%,1180px);
+  margin-top:.6em; padding-top:1.3em;
+  border-top:2px solid rgba(236,112,36,.55);
+  font-weight:700; font-size:clamp(1.05rem,2.2vw,1.4rem); text-align:center;
+  color:#f1ffe8; -webkit-text-stroke:4px var(--black); paint-order:stroke fill;
+  text-shadow:0 0 16px rgba(95,226,122,.75);
+}
+.starter-form{
+  width:min(100%,760px);
+  display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:.8em 1em;
+}
+
+.filter-form{
+  display:grid; align-items:center; gap:.9em .7em;
+  grid-template-columns:
+    max-content minmax(0,1fr) minmax(0,1fr) 4.6em
+    max-content minmax(0,1fr) minmax(0,1fr) 4.6em
+    max-content minmax(0,1fr) minmax(0,1fr) 4.6em;
+  padding-top:2.9em;
+}
+.filter-form::before{
+  content:"Search filters";
+  position:absolute; top:.85em; left:1.6em;
+  font-weight:700; font-size:.78rem; letter-spacing:1.2px; text-transform:uppercase; color:var(--orange);
+}
+.filter-form label[for="pokemon-name"],
+.filter-form label[for="pokemon-stat-1"],
+.filter-form label[for="move-type"]         { grid-column:1; }
+.filter-form label[for="pokemon-type-1"],
+.filter-form label[for="pokemon-stat-2"]    { grid-column:5; }
+.filter-form label[for="pokemon-type-2"],
+.filter-form label[for="pokemon-stat-3"]    { grid-column:9; }
+#pokemon-name, #move-type                    { grid-column:2 / 5; }
+#pokemon-type-1                              { grid-column:6 / 9; }
+#pokemon-type-2                              { grid-column:10 / 13; }
+#pokemon-stat-1{ grid-column:2 / 4; }   #pokemon-stat-1-value{ grid-column:4; }
+#pokemon-stat-2{ grid-column:6 / 8; }   #pokemon-stat-2-value{ grid-column:8; }
+#pokemon-stat-3{ grid-column:10 / 12; } #pokemon-stat-3-value{ grid-column:12; }
+.filter-form button{ grid-column:10 / 13; justify-self:end; }
+
+.form-error{
+  display:flex; align-items:center; gap:.8em;
+  width:min(100%,760px);
+  padding:.75em 1.2em;
+  font-weight:700; font-size:.92rem; color:#ffe3e1;
+  background:linear-gradient(90deg, rgba(120,14,22,.92), rgba(50,6,12,.92));
+  border:3px solid #ff5d5d;
+  border-radius:14px;
+  box-shadow:0 0 0 2px var(--black), 0 0 22px rgba(255,80,80,.45), 0 8px 18px rgba(0,0,0,.5);
+}
+.form-error::before{                                    /* icono de aviso */
+  content:"!"; flex:none;
+  display:grid; place-items:center; width:1.8em; height:1.8em;
+  border-radius:50%; background:#ff5d5d; color:var(--black);
+  border:2px solid var(--black); font-size:1.05em;
+}
+.login-form ~ .form-error, .form-error:has(+ .login-form){ width:min(100%,520px); }
+
+@media (max-width:900px){
+  .filter-form{ grid-template-columns:max-content minmax(0,1fr) minmax(0,1fr) 4.6em; }
+  .filter-form label{ grid-column:1 !important; }
+  #pokemon-name, #pokemon-type-1, #pokemon-type-2, #move-type{ grid-column:2 / 5; }
+  #pokemon-stat-1, #pokemon-stat-2, #pokemon-stat-3{ grid-column:2 / 4; }
+  #pokemon-stat-1-value, #pokemon-stat-2-value, #pokemon-stat-3-value{ grid-column:4; }
+  .filter-form button{ grid-column:1 / -1; justify-self:stretch; }
+}
+@media (max-width:560px){
+  .login-form, .filter-form, .starter-form{ padding-left:1em; padding-right:1em; font-size:.85rem; }
+  .filter-form{ grid-template-columns:max-content minmax(0,1fr) minmax(0,1fr) 3.4em; gap:.8em .5em; }
+  .filter-form::before{ left:1em; }
+  .filter-form input, .filter-form select{ padding-left:.8em; }
+  .filter-form select{ padding-right:1.9em; background-position:right .7em center, 0 0; }
+  .starter-form{ grid-template-columns:1fr auto; }
+  .starter-form label{ grid-column:1 / -1; }
+}

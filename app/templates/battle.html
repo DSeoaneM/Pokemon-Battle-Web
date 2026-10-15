@@ -6,41 +6,28 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/battle.css') }}">
     <title>Pokémon Battle Web</title>
 </head>
 <body>
     
-  <div>
-    <img src="{{ rival_pokemon['sprites']['front_default'] }}" alt="{{ rival_pokemon['name']|replace('-', ' ')|title }} · {{ rival_pokemon['sprites']['front_default']|replace('_', ' ')|capitalize }}" width="96" height="96">
+  <div class="rival-sprite">
+    <img src="{{ rival_pokemon['sprites']['front_default'] }}" alt="Back view of {{ rival_pokemon['name']|replace('-', ' ')|title }}" width="96" height="96">
   </div>
-  <div>
-    {{ rival_pokemon["name"]|title }}
-    HP: {{ rival_pokemon["stats"][0]["value"] }}
-    <table>
-      <thead>
-        <tr><th>Move</th><th>Type</th><th>ACC</th><th>POW</th></tr>
-      </thead>
-    {% for move in rival_pokemon_moves %}
-      <tr>
-        <td>{{ move["name"]|replace('-', ' ')|capitalize }}</td>
-        <td>{{ move["type"] }}</td>
-        <td>{{ move["accuracy"] if move["accuracy"] is not none else '—' }}</td>
-        <td>{{ move["power"] if move["power"] is not none else '—' }}</td>
-      </tr>
-    {% endfor %}
-    </table>
+  <div class="rival-info">
+    <span>{{ rival_pokemon["name"]|title }}</span>
+    HP: <meter value="{{ rival_pokemon["stats"][0]["value"] }}" max="{{ rival_pokemon["stats"][0]["value"] }}"></meter>
   </div>
 
-  <div>
-    <img src="{{ starter_pokemon['sprites']['back_default'] }}" alt="{{ starter_pokemon['name']|replace('-', ' ')|title }} · {{ starter_pokemon['sprites']['back_default']|replace('_', ' ')|capitalize }}" width="96" height="96">
+  <div class="starter-sprite">
+    <img src="{{ starter_pokemon['sprites']['back_default'] }}" alt=" Back view of {{ starter_pokemon['name']|replace('-', ' ')|title }}" width="96" height="96">
   </div>
-  <div>
+  <div class="starter-info">
     <div>
       <span>{{ starter_pokemon["name"]|title }}</span>
       <span>{{ trainer_name }}</span>
     </div>
-    HP: {{ starter_pokemon["stats"][0]["value"] }}
+    HP: <meter value="{{ starter_pokemon["stats"][0]["value"] }}" max="{{ starter_pokemon["stats"][0]["value"] }}"></meter>
     <table>
       <thead>
         <tr><th>Move</th><th>Type</th><th>ACC</th><th>POW</th></tr>

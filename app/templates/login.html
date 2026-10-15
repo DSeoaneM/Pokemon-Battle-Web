@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block links %}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
+{% endblock %}
+
 {% block header %}
 
   Complete your register to fight in Pokémon Battles, Trainer
@@ -9,10 +13,10 @@
 {% block main %}
   
   {% if error %}
-    <p>{{ error }}</p>
+    <p class="form-error">{{ error }}</p>
   {% endif %}
 
-  <form method="POST" action="{{ url_for('login')}}">
+  <form class="login-form" method="POST" action="{{ url_for('login')}}">
     <label for="trainer-name">Trainer: </label>
     <input id="trainer-name" name="trainer_name" type="text" placeholder="Ash" autofocus>
     <button type="submit">Continue</button>
