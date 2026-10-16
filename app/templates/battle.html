@@ -16,7 +16,7 @@
   </div>
   <div class="rival-info">
     <span>{{ rival_pokemon["name"]|title }}</span>
-    HP: <meter value="{{ rival_pokemon["stats"][0]["value"] }}" max="{{ rival_pokemon["stats"][0]["value"] }}"></meter>
+    HP: <meter value="{{ rival_pokemon['stats'][0]['value'] }}" max="{{ rival_pokemon['stats'][0]['value'] }}"></meter>
   </div>
 
   <div class="starter-sprite">
@@ -27,7 +27,7 @@
       <span>{{ starter_pokemon["name"]|title }}</span>
       <span>{{ trainer_name }}</span>
     </div>
-    HP: <meter value="{{ starter_pokemon["stats"][0]["value"] }}" max="{{ starter_pokemon["stats"][0]["value"] }}"></meter>
+    HP: <meter value="{{ starter_pokemon['stats'][0]['value'] }}" max="{{ starter_pokemon['stats'][0]['value'] }}"></meter><span>{{ starter_pokemon['stats'][0]['value'] }}/{{ starter_pokemon['stats'][0]['value'] }}</span>
     <table>
       <thead>
         <tr><th>Move</th><th>Type</th><th>ACC</th><th>POW</th></tr>
@@ -35,7 +35,7 @@
     {% for move in starter_pokemon_moves %}
       <tr>
         <td>{{ move["name"]|replace('-', ' ')|capitalize }}</td>
-        <td>{{ move["type"] }}</td>
+        <td><span class="type type-{{ move['type'] }}">{{ move["type"] }}</span></td>
         <td>{{ move["accuracy"] if move["accuracy"] is not none else '—' }}</td>
         <td>{{ move["power"] if move["power"] is not none else '—' }}</td>
       </tr>

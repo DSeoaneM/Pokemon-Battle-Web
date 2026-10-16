@@ -3,6 +3,7 @@
 {% block links %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/list.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/details.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/forms.css') }}">
 {% endblock %}
 
 {% block header %} 
@@ -18,7 +19,7 @@
   {% if pokemon == None %}
 
     <div>
-      <p>Pokémon not found</p>
+      <p class="form-error">Pokémon not found</p>
     </div>
 
   {% else %}
