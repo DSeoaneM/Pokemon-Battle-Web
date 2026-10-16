@@ -39,3 +39,11 @@ Pokemon-Battle-Web/
         ├─ js: project JavaScript functionality files.
         └─ video: introductory video.
 ```
+
+## Web routes and views
+
+- /: landing page showing a video with available Pokémon used in this webpage.
+- /login: register form to access Pokémon list, details and battle screens.
+- /pokemons/: list of Pokémon available in this webpage. Filters by name, types, stats and move types are available. Form to choose the Pokémon to start a battle.
+- /details: specific features of each Pokémon, including Pokédex number, name, front and back sprites for normal and shiny forms, height, weight, stats and list of moves.
+- /battle: work in progress. Schema of Pokémon battle.
