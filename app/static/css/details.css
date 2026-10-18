@@ -284,3 +284,8 @@ header h1 {
 .detail>.back-button:last-child {
     align-self: center;
 }
+
+main > .back-button,
+.form-error ~ .back-button{
+  align-self:center;
+}

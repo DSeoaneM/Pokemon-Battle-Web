@@ -107,10 +107,6 @@ def pokemon_list():
     if request.method == "GET":
         return render_template("list.html", trainer_name=trainer_name, POKEMON_DATA=POKEMON_DATA, project=PROJECT, author=AUTHOR, year=YEAR)
 
-    if request.method == "POST":
-        trainer_name = request.form.get("trainer_name") or trainer_name
-
-
     filtered_pokemon = POKEMON_DATA
 
     pokemon_name = request.form.get("pokemon_name", "").strip().lower()
