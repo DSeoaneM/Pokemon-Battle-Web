@@ -2,9 +2,18 @@ import json
 import random
 from datetime import datetime
 from pathlib import Path
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
+from flask_session import Session
+from functools import wraps
 
 app = Flask(__name__)
+
+app.config["SESSION_TYPE"] = "filesystem"
+app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_FILE_DIR"] = "./.flask_session"
+app.secret_key = "there are 1025 Pokémon but this site only uses 8"
+
+Session(app)
 
 PROJECT = "POKÉMON Battle Web"
 AUTHOR = "David Seoane Miraz"
@@ -69,6 +78,14 @@ def filter_by_move_type(pokemon_list, move_type):
 
     return filtered_pokemon
 
+def logged_user(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        if "trainer_name" not in session:
+            error = ["Introduce your trainer's name to access Pokémon Battle Web"]
+            return redirect(url_for("login", error=error))
+        return func(*args, **kwargs)
+    return wrapper
 
 
 # ----------
@@ -85,6 +102,8 @@ def login():
         return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
 
     trainer_name = request.form.get("trainer_name", "").strip()
+    session["trainer_name"] = trainer_name
+
     error = []
     if not trainer_name:
         error = "Trainer's name is mandatory"
@@ -92,24 +111,16 @@ def login():
         error = "Trainer's name length is invalid. It should be between 3 and 15 characters"
 
     if error:
-        return render_template("login.html", error=error, trainer_name=trainer_name, project=PROJECT, author=AUTHOR, year=YEAR)
+        return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
 
-    return redirect(url_for("pokemon_list", trainer_name=trainer_name))
+    return redirect(url_for("pokemon_list"))
 
 @app.route("/pokemons/", methods=["GET", "POST"])
+@logged_user
 def pokemon_list():
-    trainer_name = request.args.get("trainer_name")
-
-    if not trainer_name:
-        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
-        return redirect(url_for("login", error=error))
     
     if request.method == "GET":
-        return render_template("list.html", trainer_name=trainer_name, POKEMON_DATA=POKEMON_DATA, project=PROJECT, author=AUTHOR, year=YEAR)
-
-    if request.method == "POST":
-        trainer_name = request.form.get("trainer_name") or trainer_name
-
+        return render_template("list.html", POKEMON_DATA=POKEMON_DATA, project=PROJECT, author=AUTHOR, year=YEAR)
 
     filtered_pokemon = POKEMON_DATA
 
@@ -145,53 +156,66 @@ def pokemon_list():
         for pokemon in POKEMON_DATA:
             pokemon_names.append(pokemon["name"])
         if starter_name in pokemon_names:
-            return redirect(url_for("battle", trainer_name=trainer_name, starter_name=starter_name))
+            return redirect(url_for("battle", starter_name=starter_name))
         else:
             error.append("Pokémon name invalid. Choose a Pokémon from the list")
     else:
         error.append("Choose a Pokémon from the list is mandatory")
 
     if error:
-        return render_template("list.html", error=error, trainer_name=trainer_name, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+        return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
 
-    return render_template("list.html", trainer_name=trainer_name, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+    return render_template("list.html", POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
 
 @app.route("/pokemons/<int:id>/")
+@logged_user
 def pokemon_details(id):
-    trainer_name = request.args.get("trainer_name")
+    if not session["trainer_name"]:
+        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
+        return redirect(url_for("login", error=error))
+
     pokemon_selected = None
     for pokemon in POKEMON_DATA:
         if pokemon["id"] == id:
             pokemon_selected = pokemon
 
     if pokemon_selected == None:
-        return render_template("details.html", trainer_name=trainer_name, pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
+        return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
             
-    return render_template("details.html", trainer_name=trainer_name, pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
+    return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
 
 @app.route("/battle", methods=["GET"])
+@logged_user
 def battle():
-    trainer_name = request.args.get("trainer_name")
-    starter_name = request.args.get("starter_name")
-    starter_pokemon = None
-    putative_rivals = []
+    if not session["trainer_name"]:
+        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
+        return redirect(url_for("login", error=error))
 
-    for pokemon in POKEMON_DATA:
-        if pokemon["name"] == starter_name:
-            starter_pokemon = pokemon
-        else:
-            putative_rivals.append(pokemon)
+    if not session.get("starter_pokemon"):
+        starter_name = request.args.get("starter_name")
+        starter_pokemon = None
+        putative_rivals = []
 
-    rival_pokemon = random.choice(putative_rivals)
+        for pokemon in POKEMON_DATA:
+            if pokemon["name"] == starter_name:
+                starter_pokemon = pokemon
+            else:
+                putative_rivals.append(pokemon)
+                
+        rival_pokemon = random.choice(putative_rivals)
+        starter_pokemon_moves = random.sample(starter_pokemon["moves"], 4)
 
-    starter_pokemon_moves = random.sample(starter_pokemon["moves"], 4)
+    session["starter_pokemon"] = starter_pokemon
+    session["starter_pokemon_moves"] = starter_pokemon_moves
+    session["rival_pokemon"] = rival_pokemon
     
-    return render_template("battle.html", 
-                           trainer_name=trainer_name, 
-                           starter_pokemon=starter_pokemon, 
-                           starter_pokemon_moves=starter_pokemon_moves, 
-                           rival_pokemon=rival_pokemon
-                           )
+    return render_template("battle.html")
+
+@app.route("/logout")
+@logged_user
+def logout():
+    session.pop("trainer_name", None)
+    return redirect(url_for("home"))
 
 if __name__ == "__main__":
     app.run(port="8080", debug=True)

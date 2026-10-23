@@ -9,13 +9,13 @@
 
 {% block header %}
 
-  Your Pokémon is waiting for you, {{ trainer_name }}
+  Your Pokémon is waiting for you, {{ session.trainer_name }}
 
 {% endblock %}
 
 {% block main %}
 
-  <form class="filter-form" method="POST" action="{{ url_for('pokemon_list', trainer_name=trainer_name) }}">
+  <form class="filter-form" method="POST" action="{{ url_for('pokemon_list') }}">
     <label for="pokemon-name">Pokémon: </label>
     <input id="pokemon-name" name="pokemon_name" type="text">
 
@@ -105,7 +105,7 @@
   <section class="pokemon-grid">
     
     {% for pokemon in POKEMON_DATA %}
-      <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id'], trainer_name=trainer_name) }}">
+      <a class="pokemon-card-button" href="{{ url_for('pokemon_details', id=pokemon['id']) }}">
         <div class="pokemon-card-id">
           #{{ pokemon["id"] }}
         </div>
@@ -144,8 +144,8 @@
     {% endfor %}
   </section>
 
-  <p class="starter-choice-intro">{{ trainer_name }}, choose your starter Pokémon for battle!</p>
-  <form class="starter-form" method="POST" action="{{ url_for('pokemon_list', trainer_name=trainer_name) }}">
+  <p class="starter-choice-intro">{{ session.trainer_name }}, choose your starter Pokémon for battle!</p>
+  <form class="starter-form" method="POST" action="{{ url_for('pokemon_list') }}">
     <label for="starter-pokemon">Starter Pokémon name: </label>
     <input id="starter-pokemon" name="starter_pokemon" type="text" placeholder="Haunter">
     <button type="submit">Continue</button>

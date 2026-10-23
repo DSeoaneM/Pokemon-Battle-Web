@@ -20,7 +20,12 @@ Simulation of Pokémon battles with Python and Flask
 
 ## Web page access
 
-To enjoy all functionalities of POKÉMON BATTLE WEB, a valid trainer name is required.
+To enjoy all functionalities of POKÉMON BATTLE WEB, a valid trainer name is required. Only home and login pages are available without registration.
+
+## Sessions
+
+Trainer name is preserved througout POKÉMON BATTLE WEB pages once user is registered.
+Battle page preserves starter Pokémon and rival Pokémon if user refreshes the page.
 
 ## Project structure:
 ```

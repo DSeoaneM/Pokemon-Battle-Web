@@ -62,3 +62,37 @@ footer {
   border-top: 4px solid var(--black);
   box-shadow: 0 -3px 0 var(--orange);
 }
+
+.logout-button {
+    align-self: flex-start;
+    display: inline-block;
+    padding: .65em 1.8em;
+    border-radius: 999px;
+    background: radial-gradient(circle at 50% 30%, #ffb27a, #ec7024 60%, #c4561a);
+    color: var(--black);
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    border: 5px solid var(--black);
+    box-shadow: 0 0 0 4px var(--green), 0 0 28px rgba(95, 226, 122, .7), 0 7px 0 #000;
+    transition: transform .15s, box-shadow .15s;
+}
+
+.logout-button:hover {
+    transform: translateY(-3px) scale(1.04);
+    box-shadow: 0 0 0 4px #6ccb4a, 0 0 40px rgba(95, 226, 122, 1), 0 10px 0 #000;
+}
+
+.logout-button:active {
+    transform: translateY(4px);
+    box-shadow: 0 0 0 4px var(--green), 0 0 16px rgba(95, 226, 122, .8), 0 3px 0 #000;
+}
+
+.logout-button:focus-visible {
+    outline: 4px solid #fff;
+    outline-offset: 6px;
+}
+
+.detail>.logout-button:last-child {
+    align-self: center;
+}
