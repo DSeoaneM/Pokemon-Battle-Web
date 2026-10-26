@@ -25,7 +25,10 @@ To enjoy all functionalities of POKÉMON BATTLE WEB, a valid trainer name is req
 ## Sessions
 
 Trainer name is preserved througout POKÉMON BATTLE WEB pages once user is registered.
-Battle page preserves starter Pokémon and rival Pokémon if user refreshes the page.
+
+Options selected in all filters are kept even if Pokémon list page is refreshed.
+
+Battle page preserves chosen starter Pokémon and rival Pokémon, together with their move sets, even if user refreshes the page.
 
 ## Project structure:
 ```

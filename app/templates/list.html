@@ -15,88 +15,81 @@
 
 {% block main %}
 
-  <form class="filter-form" method="POST" action="{{ url_for('pokemon_list') }}">
+  <form class="filter-form" method="GET" action="{{ url_for('pokemon_list') }}">
     <label for="pokemon-name">Pokémon: </label>
-    <input id="pokemon-name" name="pokemon_name" type="text">
+    <input id="pokemon-name" name="pokemon_name" type="text" value="{{ request.args.get('pokemon_name', '') }}">
 
     <label for="pokemon-type-1">Type 1: </label>
     <select id="pokemon-type-1" name="pokemon_type_1">
-      <option value="" selected>--Choose a type--</option>
-      <option>Dark</option>
-      <option>Dragon</option>
-      <option>Fairy</option>
-      <option>Ghost</option>
-      <option>Grass</option>
-      <option>Poison</option>
-      <option>Psychic</option>
+      <option value="">--Choose a type--</option>
+      {% for option in ['Dark', 'Dragon', 'Fairy', 'Ghost', 'Grass', 'Poison', 'Psychic'] %}
+        {% if request.args.get("pokemon_type_1") == option %}
+          <option selected>{{ option }}</option>
+        {% else %}
+          <option>{{ option }}</option>
+        {% endif %}
+      {% endfor %}
     </select>
     <label for="pokemon-type-2">Type 2: </label>
     <select id="pokemon-type-2" name="pokemon_type_2">
-      <option value="" selected>--Choose a type--</option>
-      <option>Dark</option>
-      <option>Dragon</option>
-      <option>Fairy</option>
-      <option>Ghost</option>
-      <option>Grass</option>
-      <option>Poison</option>
-      <option>Psychic</option>
+      <option value="">--Choose a type--</option>
+      {% for option in ['Dark', 'Dragon', 'Fairy', 'Ghost', 'Grass', 'Poison', 'Psychic'] %}
+        {% if request.args.get("pokemon_type_2") == option %}
+          <option selected>{{ option }}</option>
+        {% else %}
+          <option>{{ option }}</option>
+        {% endif %}
+      {% endfor %}
     </select>
 
+    {%  set stat_rename = {'HP':'hp', 'ATK':'attack', 'DEF':'defense', 'SpA':'special-attack', 'SpD':'special-defense', 'SPD':'speed'} %}
     <label for="pokemon-stat-1">Stat: </label>
     <select id="pokemon-stat-1" name="pokemon_stat_1">
-      <option value="" selected>--Choose stat--</option>
-      <option value="hp">HP</option>
-      <option value="attack">ATK</option>
-      <option value="defense">DEF</option>
-      <option value="special-attack">SpA</option>
-      <option value="special-defense">SpD</option>
-      <option value="speed">SPD</option>
+      <option value="">--Choose stat--</option>
+      {% for option in ['HP', 'ATK', 'DEF', 'SpA', 'SpD', 'SPD'] %}
+        {% if request.args.get("pokemon_stat_1") == stat_rename[option] %}
+          <option value="{{ stat_rename[option] }}" selected>{{ option }}</option>
+        {% else %}
+          <option value="{{ stat_rename[option] }}">{{ option }}</option>
+        {% endif %}
+      {% endfor %}
     </select>
-    <input id="pokemon-stat-1-value" name="pokemon_stat_1_value" type="number">
+    <input id="pokemon-stat-1-value" name="pokemon_stat_1_value" type="number" value="{{ request.args.get('pokemon_stat_1_value', '') }}">
     <label for="pokemon-stat-2">Stat: </label>
     <select id="pokemon-stat-2" name="pokemon_stat_2">
-      <option value="" selected>--Choose stat--</option>
-      <option value="hp">HP</option>
-      <option value="attack">ATK</option>
-      <option value="defense">DEF</option>
-      <option value="special-attack">SpA</option>
-      <option value="special-defense">SpD</option>
-      <option value="speed">SPD</option>
+      <option value="">--Choose stat--</option>
+      {% for option in ['HP', 'ATK', 'DEF', 'SpA', 'SpD', 'SPD'] %}
+        {% if request.args.get("pokemon_stat_2") == stat_rename[option] %}
+          <option value="{{ stat_rename[option] }}" selected>{{ option }}</option>
+        {% else %}
+          <option value="{{ stat_rename[option] }}">{{ option }}</option>
+        {% endif %}
+      {% endfor %}
     </select>
-    <input id="pokemon-stat-2-value" name="pokemon_stat_2_value" type="number">
+    <input id="pokemon-stat-2-value" name="pokemon_stat_2_value" type="number" value="{{ request.args.get('pokemon_stat_2_value', '') }}">
     <label for="pokemon-stat-3">Stat: </label>
     <select id="pokemon-stat-3" name="pokemon_stat_3">
-      <option value="" selected>--Choose stat--</option>
-      <option value="hp">HP</option>
-      <option value="attack">ATK</option>
-      <option value="defense">DEF</option>
-      <option value="special-attack">SpA</option>
-      <option value="special-defense">SpD</option>
-      <option value="speed">SPD</option>
+      <option value="">--Choose stat--</option>
+      {% for option in ['HP', 'ATK', 'DEF', 'SpA', 'SpD', 'SPD'] %}
+        {% if request.args.get("pokemon_stat_3") == stat_rename[option] %}
+          <option value="{{ stat_rename[option] }}" selected>{{ option }}</option>
+        {% else %}
+          <option value="{{ stat_rename[option] }}">{{ option }}</option>
+        {% endif %}
+      {% endfor %}
     </select>
-    <input id="pokemon-stat-3-value" name="pokemon_stat_3_value" type="number">
+    <input id="pokemon-stat-3-value" name="pokemon_stat_3_value" type="number" value="{{ request.args.get('pokemon_stat_3_value', '') }}">
 
     <label for="move-type">Move type: </label>
     <select id="move-type" name="move_type">
-      <option value="" selected>--Choose a type--</option>
-      <option>Bug</option>
-      <option>Dark</option>
-      <option>Dragon</option>
-      <option>Electric</option>
-      <option>Fairy</option>
-      <option>Fighting</option>
-      <option>Fire</option>
-      <option>Flying</option>
-      <option>Ghost</option>
-      <option>Grass</option>
-      <option>Ground</option>
-      <option>Normal</option>
-      <option>Ice</option>
-      <option>Poison</option>
-      <option>Psychic</option>
-      <option>Rock</option>
-      <option>Steel</option>
-      <option>Water</option>
+      <option value="">--Choose a type--</option>
+      {% for option in ['Bug', 'Dark', 'Dragon', 'Electric', 'Fairy', 'Fighting', 'Fire', 'Flying', 'Ghost', 'Grass', 'Ground', 'Ice', 'Normal', 'Poison', 'Psychic', 'Rock', 'Steel', 'Water'] %}
+        {% if request.args.get("move_type") == option %}
+          <option selected>{{ option }}</option>
+        {% else %}
+          <option>{{ option }}</option>
+        {% endif %}
+      {% endfor %}
     </select>
 
     <button type="submit">Continue</button>

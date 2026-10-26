@@ -102,7 +102,6 @@ def login():
         return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
 
     trainer_name = request.form.get("trainer_name", "").strip()
-    session["trainer_name"] = trainer_name
 
     error = []
     if not trainer_name:
@@ -112,58 +111,57 @@ def login():
 
     if error:
         return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
-
-    return redirect(url_for("pokemon_list"))
+    else:
+        session["trainer_name"] = trainer_name
+        return redirect(url_for("pokemon_list"))
 
 @app.route("/pokemons/", methods=["GET", "POST"])
 @logged_user
 def pokemon_list():
-    
-    if request.method == "GET":
-        return render_template("list.html", POKEMON_DATA=POKEMON_DATA, project=PROJECT, author=AUTHOR, year=YEAR)
-
+        
     filtered_pokemon = POKEMON_DATA
 
-    pokemon_name = request.form.get("pokemon_name", "").strip().lower()
+    pokemon_name = request.args.get("pokemon_name", "").strip().lower()
     if pokemon_name != "":
         filtered_pokemon = filter_by_name(filtered_pokemon, pokemon_name)
 
 
-    pokemon_types = [request.form.get("pokemon_type_1", "").strip().lower(), request.form.get("pokemon_type_2", "").strip().lower()]
+    pokemon_types = [request.args.get("pokemon_type_1", "").strip().lower(), request.args.get("pokemon_type_2", "").strip().lower()]
     if pokemon_types[0] != "" or pokemon_types[1] != "":
         filtered_pokemon = filter_by_types(filtered_pokemon, pokemon_types)
 
 
     pokemon_stats = [
-        [request.form.get("pokemon_stat_1", ""), request.form.get("pokemon_stat_1_value", "")],
-        [request.form.get("pokemon_stat_2", ""), request.form.get("pokemon_stat_2_value", "")],
-        [request.form.get("pokemon_stat_3", ""), request.form.get("pokemon_stat_3_value", "")]
+        [request.args.get("pokemon_stat_1", ""), request.args.get("pokemon_stat_1_value", "")],
+        [request.args.get("pokemon_stat_2", ""), request.args.get("pokemon_stat_2_value", "")],
+        [request.args.get("pokemon_stat_3", ""), request.args.get("pokemon_stat_3_value", "")]
         ]
     for stats in pokemon_stats:
         if stats[0] != "" and stats[1] != "":
             filtered_pokemon = filter_by_stats(filtered_pokemon, stats)
 
 
-    move_type = request.form.get("move_type", "").strip().lower()
+    move_type = request.args.get("move_type", "").strip().lower()
     if move_type != "":
         filtered_pokemon = filter_by_move_type(filtered_pokemon, move_type)
 
-
-    starter_name = request.form.get("starter_pokemon", "").strip().lower().replace(" ", "-")
-    error = []
-    if starter_name != "":
-        pokemon_names = []
-        for pokemon in POKEMON_DATA:
-            pokemon_names.append(pokemon["name"])
-        if starter_name in pokemon_names:
-            return redirect(url_for("battle", starter_name=starter_name))
+    if request.method == "POST":
+        starter_name = request.form.get("starter_pokemon", "").strip().lower().replace(" ", "-")
+        error = []
+        if starter_name != "":
+            pokemon_names = []
+            for pokemon in POKEMON_DATA:
+                pokemon_names.append(pokemon["name"])
+            if starter_name in pokemon_names:
+                session["starter_name"] = starter_name
+                return redirect(url_for("battle"))
+            else:
+                error.append("Pokémon name invalid. Choose a Pokémon from the list")
         else:
-            error.append("Pokémon name invalid. Choose a Pokémon from the list")
-    else:
-        error.append("Choose a Pokémon from the list is mandatory")
+            error.append("Choose a Pokémon from the list is mandatory")
 
-    if error:
-        return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+        if error:
+            return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
 
     return render_template("list.html", POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
 
@@ -191,19 +189,21 @@ def battle():
         error = ["Introduce your trainer's name to access Pokémon Battle Web"]
         return redirect(url_for("login", error=error))
 
-    if not session.get("starter_pokemon"):
-        starter_name = request.args.get("starter_name")
-        starter_pokemon = None
-        putative_rivals = []
+    if not session["starter_name"]:
+        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
+        return redirect(url_for("pokemon_list", error=error))
 
-        for pokemon in POKEMON_DATA:
-            if pokemon["name"] == starter_name:
-                starter_pokemon = pokemon
-            else:
-                putative_rivals.append(pokemon)
+    starter_pokemon = None
+    putative_rivals = []
+
+    for pokemon in POKEMON_DATA:
+        if pokemon["name"] == session["starter_name"]:
+            starter_pokemon = pokemon
+        else:
+            putative_rivals.append(pokemon)
                 
-        rival_pokemon = random.choice(putative_rivals)
-        starter_pokemon_moves = random.sample(starter_pokemon["moves"], 4)
+    rival_pokemon = random.choice(putative_rivals)
+    starter_pokemon_moves = random.sample(starter_pokemon["moves"], 4)
 
     session["starter_pokemon"] = starter_pokemon
     session["starter_pokemon_moves"] = starter_pokemon_moves

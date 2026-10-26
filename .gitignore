@@ -1,6 +1,7 @@
 #Python
 venv/
 app/__pycache__/
+.flask_session/
 
 #IDE
 .vscode
