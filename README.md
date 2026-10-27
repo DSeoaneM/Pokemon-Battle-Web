@@ -9,6 +9,8 @@ Simulation of Pokémon battles with Python and Flask
 
 - Python 3.14.7
 - Flask 3.1.3
+- Jinja2 3.1.6
+- Flask-Session 0.8.0
 
 ## Functionalities
 
@@ -22,13 +24,14 @@ Simulation of Pokémon battles with Python and Flask
 
 To enjoy all functionalities of POKÉMON BATTLE WEB, a valid trainer name is required. Only home and login pages are available without registration.
 
-## Sessions
+## Session data
 
-Trainer name is preserved througout POKÉMON BATTLE WEB pages once user is registered.
+Sessions are stored server-side with Flask-Session.
 
-Options selected in all filters are kept even if Pokémon list page is refreshed.
-
-Battle page preserves chosen starter Pokémon and rival Pokémon, together with their move sets, even if user refreshes the page.
+- Trainer name is preserved througout POKÉMON BATTLE WEB pages once user is registered. Without it, only home and login are accessible.
+- Options selected in all filters are kept even if Pokémon list page is refreshed. They appear in the URL and were lost when page is changed.
+- Battle page preserves chosen starter Pokémon and rival Pokémon, together with their move sets, even if user refreshes the page.
+- Logout clears the session trainer's name and redirects to the home page.
 
 ## Project structure:
 ```

@@ -453,3 +453,10 @@ meter::-moz-meter-bar {
     width: 58vw;
   }
 }
+
+.logout-button {
+  position: absolute;
+  top: calc(var(--u) * 1.5);
+  right: calc(var(--u) * 1.5);
+  z-index: 10;
+}

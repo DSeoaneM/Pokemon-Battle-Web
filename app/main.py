@@ -9,7 +9,7 @@ from functools import wraps
 app = Flask(__name__)
 
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SESSION_PERMANENT"] = False
+app.config["SESSION_PERMANENT"] = True
 app.config["SESSION_FILE_DIR"] = "./.flask_session"
 app.secret_key = "there are 1025 Pokémon but this site only uses 8"
 
@@ -63,7 +63,7 @@ def filter_by_stats(pokemon_list, pokemon_stats):
     
     for pokemon in pokemon_list:
         for stat in pokemon["stats"]:
-            if (stat["name"] == pokemon_stat and stat["value"] >= int(pokemon_stat_value)):
+            if stat["name"] == pokemon_stat and stat["value"] >= int(pokemon_stat_value):
                 filtered_pokemon.append(pokemon)   
 
     return filtered_pokemon
@@ -82,8 +82,8 @@ def logged_user(func):
     @wraps(func)
     def wrapper(*args, **kwargs):
         if "trainer_name" not in session:
-            error = ["Introduce your trainer's name to access Pokémon Battle Web"]
-            return redirect(url_for("login", error=error))
+            session["login_error"] = ["Introduce your trainer's name to access Pokémon Battle Web"]
+            return redirect(url_for("login"))
         return func(*args, **kwargs)
     return wrapper
 
@@ -98,19 +98,20 @@ def home():
 @app.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "GET":
-        error = request.args.get("error")
+        error = session.pop("login_error", None)
         return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
 
     trainer_name = request.form.get("trainer_name", "").strip()
 
     error = []
     if not trainer_name:
-        error = "Trainer's name is mandatory"
+        error.append("Trainer's name is mandatory")
     elif len(trainer_name) < 3 or len(trainer_name) > 15:
-        error = "Trainer's name length is invalid. It should be between 3 and 15 characters"
+        error.append("Trainer's name length is invalid. It should be between 3 and 15 characters")
 
     if error:
-        return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
+        session["login_error"] = error
+        return redirect(url_for("login"))
     else:
         session["trainer_name"] = trainer_name
         return redirect(url_for("pokemon_list"))
@@ -118,18 +119,15 @@ def login():
 @app.route("/pokemons/", methods=["GET", "POST"])
 @logged_user
 def pokemon_list():
-        
     filtered_pokemon = POKEMON_DATA
 
-    pokemon_name = request.args.get("pokemon_name", "").strip().lower()
+    pokemon_name = request.args.get("pokemon_name", "").strip().lower().replace(" ","-")
     if pokemon_name != "":
         filtered_pokemon = filter_by_name(filtered_pokemon, pokemon_name)
-
 
     pokemon_types = [request.args.get("pokemon_type_1", "").strip().lower(), request.args.get("pokemon_type_2", "").strip().lower()]
     if pokemon_types[0] != "" or pokemon_types[1] != "":
         filtered_pokemon = filter_by_types(filtered_pokemon, pokemon_types)
-
 
     pokemon_stats = [
         [request.args.get("pokemon_stat_1", ""), request.args.get("pokemon_stat_1_value", "")],
@@ -139,7 +137,6 @@ def pokemon_list():
     for stats in pokemon_stats:
         if stats[0] != "" and stats[1] != "":
             filtered_pokemon = filter_by_stats(filtered_pokemon, stats)
-
 
     move_type = request.args.get("move_type", "").strip().lower()
     if move_type != "":
@@ -161,53 +158,44 @@ def pokemon_list():
             error.append("Choose a Pokémon from the list is mandatory")
 
         if error:
-            return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
-
-    return render_template("list.html", POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+            session["battle_error"] = error
+            return redirect(url_for("pokemon_list"))
+    
+    error = session.pop("battle_error", None)
+    return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
 
 @app.route("/pokemons/<int:id>/")
 @logged_user
 def pokemon_details(id):
-    if not session["trainer_name"]:
-        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
-        return redirect(url_for("login", error=error))
-
     pokemon_selected = None
     for pokemon in POKEMON_DATA:
         if pokemon["id"] == id:
             pokemon_selected = pokemon
-
-    if pokemon_selected == None:
-        return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
-            
+         
     return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
 
 @app.route("/battle", methods=["GET"])
 @logged_user
 def battle():
-    if not session["trainer_name"]:
-        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
-        return redirect(url_for("login", error=error))
+    if not session.get("starter_name"):
+        session["battle_error"] = ["Introduce your starter Pokémon name to access Pokémon Battle Web"]
+        return redirect(url_for("pokemon_list"))
 
-    if not session["starter_name"]:
-        error = ["Introduce your trainer's name to access Pokémon Battle Web"]
-        return redirect(url_for("pokemon_list", error=error))
+    if session.get("starter_pokemon") is None or session["starter_pokemon"]["name"] != session["starter_name"]:
+        starter_pokemon = None
+        putative_rivals = []
+        for pokemon in POKEMON_DATA:
+            if pokemon["name"] == session["starter_name"]:
+                starter_pokemon = pokemon
+            else:
+                putative_rivals.append(pokemon)
+                    
+        rival_pokemon = random.choice(putative_rivals)
+        starter_pokemon_moves = random.sample(starter_pokemon["moves"], 4)
 
-    starter_pokemon = None
-    putative_rivals = []
-
-    for pokemon in POKEMON_DATA:
-        if pokemon["name"] == session["starter_name"]:
-            starter_pokemon = pokemon
-        else:
-            putative_rivals.append(pokemon)
-                
-    rival_pokemon = random.choice(putative_rivals)
-    starter_pokemon_moves = random.sample(starter_pokemon["moves"], 4)
-
-    session["starter_pokemon"] = starter_pokemon
-    session["starter_pokemon_moves"] = starter_pokemon_moves
-    session["rival_pokemon"] = rival_pokemon
+        session["starter_pokemon"] = starter_pokemon
+        session["starter_pokemon_moves"] = starter_pokemon_moves
+        session["rival_pokemon"] = rival_pokemon
     
     return render_template("battle.html")
 

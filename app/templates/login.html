@@ -13,7 +13,7 @@
 {% block main %}
   
   {% if error %}
-    <p class="form-error">{{ error }}</p>
+    <p class="form-error">{{ error|join(", ") }}</p>
   {% endif %}
 
   <form class="login-form" method="POST" action="{{ url_for('login')}}">
