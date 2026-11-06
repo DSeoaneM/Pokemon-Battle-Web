@@ -1,12 +1,14 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
+from app.repositories.pokemon_repository import get_pokemon_by_id, load_data, filter_by_name, filter_by_types, filter_by_stats, filter_by_move_type
+from app.main import AUTHOR, PROJECT, YEAR
 
 pokemons_bp = Blueprint("pokemons", __name__)
 
 @pokemons_bp.route("/", methods=["GET", "POST"])
 @logged_user
 def pokemon_list():
-    filtered_pokemon = POKEMON_DATA
+    filtered_pokemon = load_data()
 
     pokemon_name = request.args.get("pokemon_name", "").strip().lower().replace(" ","-")
     if pokemon_name != "":
@@ -34,7 +36,7 @@ def pokemon_list():
         error = []
         if starter_name != "":
             pokemon_names = []
-            for pokemon in POKEMON_DATA:
+            for pokemon in load_data():
                 pokemon_names.append(pokemon["name"])
             if starter_name in pokemon_names:
                 session["starter_name"] = starter_name
@@ -54,9 +56,6 @@ def pokemon_list():
 @pokemons_bp.route("/<int:id>/")
 @logged_user
 def pokemon_details(id):
-    pokemon_selected = None
-    for pokemon in POKEMON_DATA:
-        if pokemon["id"] == id:
-            pokemon_selected = pokemon
+    pokemon_selected = get_pokemon_by_id(id)
          
     return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)

@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
+from app.main import AUTHOR, PROJECT, YEAR
 
 trainer_bp = Blueprint("trainer", __name__)
 
