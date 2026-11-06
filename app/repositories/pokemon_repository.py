@@ -1,2 +1,2 @@
-def get_all_pokemon():
+# def get_all_pokemon():
     

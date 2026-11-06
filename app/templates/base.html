@@ -14,7 +14,7 @@
     <header>
         <h1>{% block header %}Welcome to Pokémon Battle, Trainer!{% endblock %}</h1>
         {% if session.trainer_name %}
-            <a class="logout-button" href="{{ url_for('logout') }}">Logout: {{ session.trainer_name }}</a>
+            <a class="logout-button" href="{{ url_for('trainer.logout') }}">Logout: {{ session.trainer_name }}</a>
         {% endif %}
     </header>
 

@@ -1,0 +1,62 @@
+from flask import Blueprint, redirect, render_template, request, session, url_for
+from app.decorators.decorators import logged_user
+
+pokemons_bp = Blueprint("pokemons", __name__)
+
+@pokemons_bp.route("/", methods=["GET", "POST"])
+@logged_user
+def pokemon_list():
+    filtered_pokemon = POKEMON_DATA
+
+    pokemon_name = request.args.get("pokemon_name", "").strip().lower().replace(" ","-")
+    if pokemon_name != "":
+        filtered_pokemon = filter_by_name(filtered_pokemon, pokemon_name)
+
+    pokemon_types = [request.args.get("pokemon_type_1", "").strip().lower(), request.args.get("pokemon_type_2", "").strip().lower()]
+    if pokemon_types[0] != "" or pokemon_types[1] != "":
+        filtered_pokemon = filter_by_types(filtered_pokemon, pokemon_types)
+
+    pokemon_stats = [
+        [request.args.get("pokemon_stat_1", ""), request.args.get("pokemon_stat_1_value", "")],
+        [request.args.get("pokemon_stat_2", ""), request.args.get("pokemon_stat_2_value", "")],
+        [request.args.get("pokemon_stat_3", ""), request.args.get("pokemon_stat_3_value", "")]
+        ]
+    for stats in pokemon_stats:
+        if stats[0] != "" and stats[1] != "":
+            filtered_pokemon = filter_by_stats(filtered_pokemon, stats)
+
+    move_type = request.args.get("move_type", "").strip().lower()
+    if move_type != "":
+        filtered_pokemon = filter_by_move_type(filtered_pokemon, move_type)
+
+    if request.method == "POST":
+        starter_name = request.form.get("starter_pokemon", "").strip().lower().replace(" ", "-")
+        error = []
+        if starter_name != "":
+            pokemon_names = []
+            for pokemon in POKEMON_DATA:
+                pokemon_names.append(pokemon["name"])
+            if starter_name in pokemon_names:
+                session["starter_name"] = starter_name
+                return redirect(url_for("battle.battle"))
+            else:
+                error.append("Pokémon name invalid. Choose a Pokémon from the list")
+        else:
+            error.append("Choose a Pokémon from the list is mandatory")
+
+        if error:
+            session["battle_error"] = error
+            return redirect(url_for("pokemons.pokemon_list"))
+    
+    error = session.pop("battle_error", None)
+    return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+
+@pokemons_bp.route("/<int:id>/")
+@logged_user
+def pokemon_details(id):
+    pokemon_selected = None
+    for pokemon in POKEMON_DATA:
+        if pokemon["id"] == id:
+            pokemon_selected = pokemon
+         
+    return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
