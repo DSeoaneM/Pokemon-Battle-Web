@@ -1,5 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
+from app.forms.login_form import TrainerLoginForm
 from app.main import AUTHOR, PROJECT, YEAR
 
 trainer_bp = Blueprint("trainer", __name__)
@@ -10,6 +11,15 @@ def home():
 
 @trainer_bp.route("/login", methods=["GET", "POST"])
 def login():
+    form = TrainerLoginForm()
+
+    if not form.validate_on_submit():
+        return redirect(url_for("trainer.login", form=form))
+    else:
+        return redirect(url_for("pokemons.pokemon_list"))
+
+
+
     if request.method == "GET":
         error = session.pop("login_error", None)
         return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)

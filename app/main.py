@@ -9,9 +9,9 @@ from app.routes.battle_routes import battle_bp
 app = Flask(__name__)
 
 app.config["SESSION_TYPE"] = "filesystem"
-app.config["SESSION_PERMANENT"] = True
+app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_FILE_DIR"] = "./.flask_session"
-app.secret_key = "there are 1025 Pokémon but this site only uses 8"
+app.secret_key = "there are 1025 Pokémon but this site uses 8 only"
 
 Session(app)
 
