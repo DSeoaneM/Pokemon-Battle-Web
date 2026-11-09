@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 
 @dataclass
-class pokemon:
+class Pokemon:
     id: int
     name: str
     types: list

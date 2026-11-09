@@ -1,14 +1,21 @@
 import json
 from pathlib import Path
+from app.models import Pokemon
 
 URL_POKEMON_DATA = Path(__file__).resolve().parent.parent / "data" / "pokemons-spooky.json"
 
 def load_data():
     with URL_POKEMON_DATA.open(encoding="utf-8") as pokemon_file:
-        return json.load(pokemon_file)        
+        return json.load(pokemon_file)  
+
+def get_pokemons():
+    pokemons = []
+    for pokemon in load_data():
+        pokemons.append(Pokemon(pokemon["id"], pokemon["name"], pokemon["types"], pokemon["weight"], pokemon["height"], pokemon["sprites"], pokemon["stats"], pokemon["moves"]))
+    return pokemons  
 
 def get_pokemon_by_id(id):
-    for pokemon in load_data:
+    for pokemon in get_pokemons():
         if pokemon["id"] == id:
             return pokemon
 

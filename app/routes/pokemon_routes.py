@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
-from app.repositories.pokemon_repository import get_pokemon_by_id, load_data, filter_by_name, filter_by_types, filter_by_stats, filter_by_move_type
+from app.services.pokemon_service import get_pokemons_service, get_pokemon_by_id_service, filter_by_name_service, filter_by_types_service, filter_by_stats_service, filter_by_move_type_service
 from app.main import AUTHOR, PROJECT, YEAR
 
 pokemons_bp = Blueprint("pokemons", __name__)
@@ -8,15 +8,15 @@ pokemons_bp = Blueprint("pokemons", __name__)
 @pokemons_bp.route("/", methods=["GET", "POST"])
 @logged_user
 def pokemon_list():
-    filtered_pokemon = load_data()
+    filtered_pokemon = get_pokemons_service()
 
     pokemon_name = request.args.get("pokemon_name", "").strip().lower().replace(" ","-")
     if pokemon_name != "":
-        filtered_pokemon = filter_by_name(filtered_pokemon, pokemon_name)
+        filtered_pokemon = filter_by_name_service(filtered_pokemon, pokemon_name)
 
     pokemon_types = [request.args.get("pokemon_type_1", "").strip().lower(), request.args.get("pokemon_type_2", "").strip().lower()]
     if pokemon_types[0] != "" or pokemon_types[1] != "":
-        filtered_pokemon = filter_by_types(filtered_pokemon, pokemon_types)
+        filtered_pokemon = filter_by_types_service(filtered_pokemon, pokemon_types)
 
     pokemon_stats = [
         [request.args.get("pokemon_stat_1", ""), request.args.get("pokemon_stat_1_value", "")],
@@ -25,18 +25,18 @@ def pokemon_list():
         ]
     for stats in pokemon_stats:
         if stats[0] != "" and stats[1] != "":
-            filtered_pokemon = filter_by_stats(filtered_pokemon, stats)
+            filtered_pokemon = filter_by_stats_service(filtered_pokemon, stats)
 
     move_type = request.args.get("move_type", "").strip().lower()
     if move_type != "":
-        filtered_pokemon = filter_by_move_type(filtered_pokemon, move_type)
+        filtered_pokemon = filter_by_move_type_service(filtered_pokemon, move_type)
 
     if request.method == "POST":
         starter_name = request.form.get("starter_pokemon", "").strip().lower().replace(" ", "-")
         error = []
         if starter_name != "":
             pokemon_names = []
-            for pokemon in load_data():
+            for pokemon in get_pokemons_service():
                 pokemon_names.append(pokemon["name"])
             if starter_name in pokemon_names:
                 session["starter_name"] = starter_name
@@ -56,6 +56,6 @@ def pokemon_list():
 @pokemons_bp.route("/<int:id>/")
 @logged_user
 def pokemon_details(id):
-    pokemon_selected = get_pokemon_by_id(id)
+    pokemon_selected = get_pokemon_by_id_service(id)
          
     return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)

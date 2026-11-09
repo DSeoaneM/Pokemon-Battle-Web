@@ -1,7 +1,7 @@
 import random
 from flask import Blueprint, redirect, render_template, session, url_for
 from app.decorators.decorators import logged_user
-from app.repositories.pokemon_repository import load_data
+from app.repositories.pokemon_repository import get_pokemons
 
 battle_bp = Blueprint("battle", __name__)
 
@@ -15,7 +15,7 @@ def battle():
     if session.get("starter_pokemon") is None or session["starter_pokemon"]["name"] != session["starter_name"]:
         starter_pokemon = None
         putative_rivals = []
-        for pokemon in load_data():
+        for pokemon in get_pokemons():
             if pokemon["name"] == session["starter_name"]:
                 starter_pokemon = pokemon
             else:
