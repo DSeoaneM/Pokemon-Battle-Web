@@ -1,16 +1,17 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
 from app.forms.login_form import TrainerLoginForm
-from app.main import AUTHOR, PROJECT, YEAR
 
 trainer_bp = Blueprint("trainer", __name__)
 
 @trainer_bp.route("/")
 def home():
+    from app.main import AUTHOR, PROJECT, YEAR
     return render_template("welcome.html", project=PROJECT, author=AUTHOR, year=YEAR)
 
 @trainer_bp.route("/login", methods=["GET", "POST"])
 def login():
+    from app.main import AUTHOR, PROJECT, YEAR
     if "trainer_name" in session:
         return redirect(url_for("pokemons.pokemon_list"))
     

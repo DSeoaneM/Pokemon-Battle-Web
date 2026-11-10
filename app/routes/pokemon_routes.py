@@ -1,13 +1,13 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
 from app.services.pokemon_service import get_pokemons_service, get_pokemon_by_id_service, filter_by_name_service, filter_by_types_service, filter_by_stats_service, filter_by_move_type_service, is_valid_starter_service
-from app.main import AUTHOR, PROJECT, YEAR
 
 pokemons_bp = Blueprint("pokemons", __name__)
 
 @pokemons_bp.route("/", methods=["GET", "POST"])
 @logged_user
 def pokemon_list():
+    from app.main import AUTHOR, PROJECT, YEAR
     filtered_pokemon = get_pokemons_service()
 
     pokemon_name = request.args.get("pokemon_name", "").strip().lower().replace(" ","-")
@@ -52,6 +52,7 @@ def pokemon_list():
 @pokemons_bp.route("/<int:id>/")
 @logged_user
 def pokemon_details(id):
+    from app.main import AUTHOR, PROJECT, YEAR
     pokemon_selected = get_pokemon_by_id_service(id)
          
     return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
