@@ -7,7 +7,7 @@ pokemons_bp = Blueprint("pokemons", __name__)
 @pokemons_bp.route("/", methods=["GET", "POST"])
 @logged_user
 def pokemon_list():
-    from app.main import AUTHOR, PROJECT, YEAR
+
     filtered_pokemon = get_pokemons_service()
 
     pokemon_name = request.args.get("pokemon_name", "").strip().lower().replace(" ","-")
@@ -46,13 +46,12 @@ def pokemon_list():
         return redirect(url_for("pokemons.pokemon_list"))
     
     error = session.pop("battle_error", None)
-    return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+    return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon)
 
 
 @pokemons_bp.route("/<int:id>/")
 @logged_user
 def pokemon_details(id):
-    from app.main import AUTHOR, PROJECT, YEAR
     pokemon_selected = get_pokemon_by_id_service(id)
          
-    return render_template("details.html", pokemon=pokemon_selected, project=PROJECT, author=AUTHOR, year=YEAR)
+    return render_template("details.html", pokemon=pokemon_selected)

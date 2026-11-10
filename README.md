@@ -33,6 +33,14 @@ Sessions are stored server-side with Flask-Session.
 - Battle page preserves chosen starter Pokémon and rival Pokémon, together with their move sets, even if user refreshes the page.
 - Logout clears all trainer data and redirects to the home page.
 
+# Blueprints
+
+Routes were organised in 3 different blueprints according to the entities they used:
+
+- pokemons_bp: includes routes for listing all Pokémon and Pokémon details.
+- battle_bp: includes the route to play a Pokémon battle.
+- trainer_bp: includes routes that user can access freely or related to login and logout.
+
 ## Project structure:
 ```
 Pokemon-Battle-Web/
@@ -43,12 +51,18 @@ Pokemon-Battle-Web/
 ├─ data/: folder contianing Pokémon data used in this project in JSON format.
 └─ app/ 
     ├─ main.py: file with the Python code to run the project.
-    ├─ templates: project html templates.
-    └─ static/:
+    ├─ decorators/: decorators with different functionalities.
+    ├─ forms/: Flask WTF forms.
+    ├─ models/: models for the objects used.
+    ├─ repositories/: functionalities to handle data.
+    ├─ routes/: routes for the endpoints.
+    ├─ services/: services implemented.
+    ├─ static/:
         ├─ css: project CSS style sheets.
         ├─ img: folder with images used in this project.
         ├─ js: project JavaScript functionality files.
         └─ video: introductory video.
+    └─ templates/: project html templates.
 ```
 
 ## Web routes and views

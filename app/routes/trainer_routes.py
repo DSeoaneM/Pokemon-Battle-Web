@@ -6,12 +6,12 @@ trainer_bp = Blueprint("trainer", __name__)
 
 @trainer_bp.route("/")
 def home():
-    from app.main import AUTHOR, PROJECT, YEAR
-    return render_template("welcome.html", project=PROJECT, author=AUTHOR, year=YEAR)
+
+    return render_template("welcome.html")
 
 @trainer_bp.route("/login", methods=["GET", "POST"])
 def login():
-    from app.main import AUTHOR, PROJECT, YEAR
+
     if "trainer_name" in session:
         return redirect(url_for("pokemons.pokemon_list"))
     
@@ -19,13 +19,13 @@ def login():
 
     if request.method == "GET":
         error = session.pop("login_error", None)
-        return render_template("login.html",form=form, error=error, project=PROJECT, author=AUTHOR, year=YEAR)
+        return render_template("login.html",form=form, error=error)
     
     if form.validate_on_submit():
         session["trainer_name"] = form.trainer_name.data
         return redirect(url_for("pokemons.pokemon_list"))
 
-    return render_template("login.html", form=form, error=None, project=PROJECT, author=AUTHOR, year=YEAR)
+    return render_template("login.html", form=form, error=None)
         
 @trainer_bp.route("/logout")
 @logged_user
