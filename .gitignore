@@ -1,6 +1,6 @@
 #Python
 venv/
-app/__pycache__/
+__pycache__/
 .flask_session/
 
 #IDE

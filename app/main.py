@@ -2,6 +2,10 @@ from datetime import datetime
 from flask import Flask
 from flask_session import Session
 
+PROJECT = "POKÉMON Battle Web"
+AUTHOR = "David Seoane Miraz"
+YEAR = datetime.now().year
+
 from app.routes.trainer_routes import trainer_bp
 from app.routes.pokemon_routes import pokemons_bp
 from app.routes.battle_routes import battle_bp
@@ -14,10 +18,6 @@ app.config["SESSION_FILE_DIR"] = "./.flask_session"
 app.secret_key = "there are 1025 Pokémon but this site uses 8 only"
 
 Session(app)
-
-PROJECT = "POKÉMON Battle Web"
-AUTHOR = "David Seoane Miraz"
-YEAR = datetime.now().year
 
 app.register_blueprint(trainer_bp)
 app.register_blueprint(pokemons_bp, url_prefix="/pokemons")

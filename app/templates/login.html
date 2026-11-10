@@ -16,11 +16,15 @@
     <p class="form-error">{{ error|join(", ") }}</p>
   {% endif %}
 
+  {% if form.trainer_name.errors %}
+    <p class="form-error">{{ form.trainer_name.errors|join(", ") }}</p>
+  {% endif %}
+
   <form class="login-form" method="POST" action="{{ url_for('trainer.login')}}">
     {{ form.hidden_tag() }}
-    <label for="trainer-name">Trainer: </label>
-    <input id="trainer-name" name="trainer_name" type="text" placeholder="Ash" autofocus>
-    <button type="submit">Continue</button>
+    {{ form.trainer_name.label(for="trainer-name") }}
+    {{ form.trainer_name(id="trainer-name", placeholder="Ash", autofocus=True) }}
+    <button type="submit">{{ form.submit.label.text }}</button>
   </form>
 
 {% endblock %}

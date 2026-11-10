@@ -1,6 +1,6 @@
 from flask import Blueprint, redirect, render_template, request, session, url_for
 from app.decorators.decorators import logged_user
-from app.services.pokemon_service import get_pokemons_service, get_pokemon_by_id_service, filter_by_name_service, filter_by_types_service, filter_by_stats_service, filter_by_move_type_service
+from app.services.pokemon_service import get_pokemons_service, get_pokemon_by_id_service, filter_by_name_service, filter_by_types_service, filter_by_stats_service, filter_by_move_type_service, is_valid_starter_service
 from app.main import AUTHOR, PROJECT, YEAR
 
 pokemons_bp = Blueprint("pokemons", __name__)
@@ -34,24 +34,20 @@ def pokemon_list():
     if request.method == "POST":
         starter_name = request.form.get("starter_pokemon", "").strip().lower().replace(" ", "-")
         error = []
-        if starter_name != "":
-            pokemon_names = []
-            for pokemon in get_pokemons_service():
-                pokemon_names.append(pokemon["name"])
-            if starter_name in pokemon_names:
-                session["starter_name"] = starter_name
-                return redirect(url_for("battle.battle"))
-            else:
-                error.append("Pokémon name invalid. Choose a Pokémon from the list")
-        else:
+        if starter_name == "":
             error.append("Choose a Pokémon from the list is mandatory")
+        elif not is_valid_starter_service(starter_name):
+            error.append("Pokémon name invalid. Choose a Pokémon from the list")
+        else:
+            session["starter_name"] = starter_name
+            return redirect(url_for("battle.battle"))
 
-        if error:
-            session["battle_error"] = error
-            return redirect(url_for("pokemons.pokemon_list"))
+        session["battle_error"] = error
+        return redirect(url_for("pokemons.pokemon_list"))
     
     error = session.pop("battle_error", None)
     return render_template("list.html", error=error, POKEMON_DATA=filtered_pokemon, project=PROJECT, author=AUTHOR, year=YEAR)
+
 
 @pokemons_bp.route("/<int:id>/")
 @logged_user

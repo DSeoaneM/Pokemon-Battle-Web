@@ -31,7 +31,7 @@ Sessions are stored server-side with Flask-Session.
 - Trainer name is preserved througout POKÉMON BATTLE WEB pages once user is registered. Without it, only home and login are accessible.
 - Options selected in all filters are kept even if Pokémon list page is refreshed. They appear in the URL and were lost when page is changed.
 - Battle page preserves chosen starter Pokémon and rival Pokémon, together with their move sets, even if user refreshes the page.
-- Logout clears the session trainer's name and redirects to the home page.
+- Logout clears all trainer data and redirects to the home page.
 
 ## Project structure:
 ```

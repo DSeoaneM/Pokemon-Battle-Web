@@ -11,36 +11,23 @@ def home():
 
 @trainer_bp.route("/login", methods=["GET", "POST"])
 def login():
-    form = TrainerLoginForm()
-
-    if not form.validate_on_submit():
-        return redirect(url_for("trainer.login", form=form))
-    else:
+    if "trainer_name" in session:
         return redirect(url_for("pokemons.pokemon_list"))
-
-
+    
+    form = TrainerLoginForm()
 
     if request.method == "GET":
         error = session.pop("login_error", None)
-        return render_template("login.html", error=error, project=PROJECT, author=AUTHOR, year=YEAR)
-
-    trainer_name = request.form.get("trainer_name", "").strip()
-
-    error = []
-    if not trainer_name:
-        error.append("Trainer's name is mandatory")
-    elif len(trainer_name) < 3 or len(trainer_name) > 15:
-        error.append("Trainer's name length is invalid. It should be between 3 and 15 characters")
-
-    if error:
-        session["login_error"] = error
-        return redirect(url_for("trainer.login"))
-    else:
-        session["trainer_name"] = trainer_name
+        return render_template("login.html",form=form, error=error, project=PROJECT, author=AUTHOR, year=YEAR)
+    
+    if form.validate_on_submit():
+        session["trainer_name"] = form.trainer_name.data
         return redirect(url_for("pokemons.pokemon_list"))
 
+    return render_template("login.html", form=form, error=None, project=PROJECT, author=AUTHOR, year=YEAR)
+        
 @trainer_bp.route("/logout")
 @logged_user
 def logout():
-    session.pop("trainer_name", None)
+    session.clear()
     return redirect(url_for("trainer.home"))

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
 @dataclass
-class trainer:
+class Trainer:
     name: str
     
